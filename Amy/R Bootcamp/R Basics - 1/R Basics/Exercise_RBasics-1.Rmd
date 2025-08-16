@@ -17,7 +17,7 @@ var2 = 6
 
  A. Find the sum of 8 and 8
 ```{r}
-
+8 + 8
 ```
 
  B. Find the product of 2 and 7
