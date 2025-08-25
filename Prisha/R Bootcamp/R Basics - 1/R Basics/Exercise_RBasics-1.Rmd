@@ -16,45 +16,47 @@ var2 = 6
  1. Arithmetic Operators
 
  A. Find the sum of 8 and 8
-```{r}
+```{r} 
+8+8
 
 ```
 
  B. Find the product of 2 and 7
-```{r}
+```{r} 
+2*7
 
 ```
 
  C. Exponentiate 3 to the power of 3
-```{r}
-
+```{r} 
+3**3
 ```
 
  D. Find the difference of 89 and 16
-```{r}
-
+```{r} 
+89-16
 ```
 
  E. Find the quotient of 9 and 2
 
 ```{r}
-
+9/2
 ```
 
  2. Comparison Operators
 
  A. Write a test to evaluate whether `var1` is less than `var2`
-```{r}
+```{r} 
 
 ```
 
  B. Write a test to evaluate whether `var1` is equal to `var2`
-```{r}
+```{r} 
 
 ```
 
  C. Write a test to evaluate whether the sum of `var1` and `var2` is greater than or equal to the product of `var1` and `var2`
-```{r}
+```{r} 
 
 ```
 
