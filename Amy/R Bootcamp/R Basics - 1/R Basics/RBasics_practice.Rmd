@@ -167,10 +167,10 @@ myVector >= 2
   B. character
 
 ```{r}
-myVector2 <- c('Hi', 'Hello', 'Hey', 'Hola')
+myVector2 <- c("Hi", "Hello", "Hey", "Hola")
 myVector2
 
-myVector2 != 'Hi'
+myVector2 != "Hi"
 ```
 
   C. logical
