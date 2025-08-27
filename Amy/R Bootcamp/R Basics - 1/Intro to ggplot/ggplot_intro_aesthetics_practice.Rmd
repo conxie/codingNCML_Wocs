@@ -1,14 +1,14 @@
 ---
 title: "ggplot intro practice problems"
-author: ""
-date: "X/XX/2022"
+author: "Amy"
+date: "8/27/2025"
 output: html_document
 ---
 
 ```{r}
 library(tidyverse)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/R Basics - 1/Intro to ggplot/diamonds_sample.RData") 
 ```
 
 
@@ -34,43 +34,77 @@ Let's first practice setting different aesthetics manually. In all the following
 1. Create a graph with `price` on the y-axis, `carat` on the x-axis, and change the color of all the points to your favorite color.
 
 ```{r}
+library(ggplot2)
+library(dplyr)
 
+diamonds %>%
+  ggplot(aes(x = carat, 
+             y = price)) +
+  geom_point(color = "purple")
 ```
 
 2. Create a graph with `table` on the y-axis, `depth` on the x-axis, and change the color of all the points to chartreuse
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = depth, 
+             y = table)) +
+  geom_point(color = "chartreuse")
 ```
 
 3. Create a graph with `carat` on the y-axis, `table` on the x-axis, and change the shape of all points to 8
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = table, 
+             y = carat)) +
+  geom_point(color = "blue",
+             shape = 8)
 ```
 
 4. Create a graph with `x` on the y-axis, `y` on the x-axis, and change the alpha to 0.25
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = x, 
+             y = y)) +
+  geom_point(color = "blue",
+             alpha = 0.25)
 ```
 
 5. Create a graph with `depth` on the y-axis, `z` on the x-axis, make the shape 13 and the color orchid
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = z, 
+             y = depth)) +
+  geom_point(shape = 13,
+             color = "orchid")
 ```
 
 6. Create a graph with `table` on the y-axis, `carat` on the x-axis, make the color tomato, shape 3, size 2, and adjust the alpha to a level you think is best
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = carat, 
+             y = table)) +
+  geom_point(color = "tomato",
+             shape = 3,
+             size = 2,
+             alpha = 0.5)
 ```
 
 (Challenge) Create a graph with `price` on the y-axis, `depth` on the x-axis, make each observation be represented by a smaller gold circle within a larger magenta circle outline (hint: think about your layering order).
 
 ```{r}
-
+diamonds %>%
+  ggplot(aes(x = depth, 
+             y = price)) +
+  geom_point(color = "gold",
+             size = 2) +
+  geom_point(color = "magenta",
+             size = 2.5,
+             shape = 1)
 ```
 
 
@@ -91,62 +125,90 @@ A. Write a brief *summary* describing what that relationship or pattern actually
 
 Question:
 
-  *Question here*
+  *How are the price and carat of varying cuts related?*
 
 
 Prediction:
 
-  *Prediction here*
-
+  *If the price of a diamond rises as the carats in a cut increases, we would see a positive and linear trend for the line of best fit.*
+  
+  *If that is not the case that there is a positive relationship between price and carat, there would be a negative trend for the line of best fit.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(mapping = aes(x = carat,
+                         y = price,
+                         color = cut)) +
+  geom_point(aes(color = cut),
+             shape = 15,
+             alpha = .5,
+             size = 3) + 
+  geom_smooth(method = "lm", se = FALSE, color = "blue")
 ```
 
 Summary:
 
-  *Summary here*
+  *In summary, there is a positive linear trend between the price and carats in a cut. More specifically, the higher the carat, the higher the price. Fair cuts of diamonds seem to be priced lower than Good, Very Good, Premium, Ideal consistently.*
 
 
 2. Create a graph with `carat` on the y-axis, `z` on the x-axis, and map the color of all the points to `color`. Make any other aesthetic modifications you need to make the visualization ans legible as possible.
 
 Question:
 
-  *Question here*
+  *How does the depth of a diamond correlate to the carats, while also considering the colors of the diamond?*
 
 
 Prediction:
 
-  *Prediction here*
+  *If the depth of a diamond increases, the carats will also increase, resulting in a positive linear line of best fit. If the color also has an affect, there will also be distinct clusters representative of the individual colors.*
+  
+  *If the depth decreases, the carats will also decrease, resulting in a negative trend. If color also does not influence carat or depth, there should be no noticeable clusters.*
 
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(mapping = aes(x = z,
+                       y = carat,
+                       color = color)) +
+  geom_point(aes(color = color),
+             shape = 15,
+             alpha = .5,
+             size = 5) + 
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
 Summary:
 
-  *Summary here*
+  *In summary, depth and carat seem to have a positive linear line of fit and relationship across all colors of diamonds, and there does not appear to be significant distinct clusters of colors. This indicates color does not have an effect. However, there was one major outlier: A "G" diamond had 1 carat with a depth of 0mm.*
 
 3. Create a graph with `depth` on the y-axis, `y` on the x-axis, and map the color of all the points to `clarity`. Make any other aesthetic modifications you need to make the visualization ans legible as possible.
 
 Question:
 
-  *Question here*
+  *How is depth correlated to width of diamonds of different clarity?*
 
 
 Prediction:
 
-  *Prediction here*
-
+  *If the depth of a diamond increases, the width will also increase, resulting in a positive linear line of best fit. If clarity of the diamond affects either depth or width, their lines of best fit should be different or there should be different colors.*
+  
+  *If depth and width have no relationship, they should not have any noticeable trends. If clarity of diamond has no effect, there will be no noticable clusters or differing lines of best fit.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(mapping = aes(x = y,
+                       y = depth,
+                       color = clarity)) +
+  geom_point(aes(color = color),
+             shape = 15, 
+             alpha = 0.5, 
+             size = 3) +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
 Summary:
 
-  *Summary here*
+  *In summary, the lines of best fit are roughly linear, which represents that width does not correlate with depth as there is no trends. The data points cluster around depths of 60 to 65 and y of 4 to 8.5. There are no noticeable clusters of diamond clarity, showing that clarity does not affect depth or width.*
 
 ## Free Reign
 
@@ -155,7 +217,18 @@ Below, try to make the worst, most illegible, visualization you can. Use whateve
 4. Create a graph with `price` on the y-axis, `carat` on the x-axis.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(mapping = aes(y = carat,
+                       x = x,
+                       color = color,)) +
+  geom_point(aes(color = cut),
+             shape = "triangle",
+             size = 4, 
+             alpha = .1) + 
+  geom_point(aes(color = "tomato"),
+             shape = 4,
+             size = 1,
+             alpha = .9)
 ```
 
 
@@ -166,7 +239,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 150
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -176,7 +249,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 7
 ```
     
     
@@ -186,7 +259,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 6
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
