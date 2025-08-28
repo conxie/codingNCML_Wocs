@@ -1,7 +1,7 @@
 ---
-title: ""
-author: ""
-date: ""
+title: "Exercise_Viz1.Rmd"
+author: "Amy"
+date: "08/27/25"
 output: html_document
 ---
 
@@ -14,33 +14,59 @@ library(palmerpenguins)
 1. Create your own graph using the `penguins` data and pick 2 of the following to put on your x and y axes: `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, or `body_mass_g` (Note: This should *NOT* be code directly from the lecture or notes).
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+             y = body_mass_g))
 ```
 
 
 2. Update your graph above by telling ggplot you want it to render a point for each observation in the penguins dataset. Describe the pattern/relationship you see under the code chunk.
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  
+  geom_point()
 ```
 
-*Summary here*
+*Based on the graph, it is evident that there is a positive linear correlation between flipper length and body mass. As the flipper length increases, so does the body mass. In addition, there is a slight separation of two clusters, one from 170-200 mm and 210-230 mm.*
 
 
 3. Think about what patterns you notice in the visualization you created, and test whether `sex` or `species` might explain those patterns. Write a prediction before the code chunk, test that prediction, and then describe what you see.
 
-*Prediction here*
+*If sex or species has an effect on flipper length and body mass, we would see distinct and separate clusters of varying colors.*
+
+*If sex or species does not have an effect on flipper length and body mass, we would see the colors scrambled in no distinct cluters.*
 
 ```{r}
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g,
+                       color = sex)) +
+  
+  geom_point()
 
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g,
+                       color = species)) +
+  
+  geom_point()
 ```
 
-*Summary here*
+*Based on the graph testing sex, it does not seem that sex has an influence because we see 2 distinct clusters of males and females mixed. However, it is obvious  that males have high flipper length and body mass in comparison to females at relative flipper lengths. From 180 to 200 flipper lengths, we see the males tend to have higher body mass. This is also seen from 210 mm to 230 mm. The males have higher flipper lengths and body mass than the females.*
+
+*Based on the graph testing species, there does seem to be an effect for Gentoo, which makes up its own cluster from the flipper length 210mm to 230mm. As for Adelie and Chinstrap, there are mixed together. Gentoo seems to consistently have higher flipper length and body mass.*
 
 4. Add in the line of best fit with `geom_smooth()`, making sure that your code produces a single line that is fit to ***all*** your data.
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  geom_point(aes(color = species))
 ```
 
 5. Use R code to create or recreate the graphs below
@@ -48,30 +74,49 @@ library(palmerpenguins)
 A. Make a visualization to investigate the relationship between bill length (on the y-axis) and bill depth (on the x-axis)
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = bill_depth_mm, 
+                       y = bill_length_mm)) +
+  geom_point()
 ```
 
 B. https://drive.google.com/uc?export=view&id=11Ig5Xq3z8CZwn0ElYmw4GNX0MK09Ja5E
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = bill_depth_mm, 
+                       y = bill_length_mm,
+                       color = species)) +
+  geom_point()
 ```
 
 C. Make a visualization to investigate the relationship between body mass and flipper length. In doing so, make the geometric figure rendering the observations appear in blue. 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm, 
+                       y = body_mass_g)) +
+  geom_point(color = "blue")
 ```
 
 D. https://drive.google.com/uc?export=view&id=1hcgTg902GsvRNS2SnZxiv-rtFXRpCiAR
 
 ```{r}
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm, 
+                       y = body_mass_g)) +
+  geom_point(color = "blue") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
 
 ```
 
 E. https://drive.google.com/uc?export=view&id=1RIuM6lRIoMdriUrtBySONizo22L9R_Xm
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm, 
+                       y = body_mass_g)) +
+  geom_point(aes(color = flipper_length_mm > 210)) + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
 ```
 
 6. 
@@ -80,19 +125,35 @@ Part 1: Take the code you produced for Exercise 4 and...
 1. Change the shape to be solid color squares with color mapped to the `species` variable. 
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  geom_point(aes(color = species),
+                 shape = "square")
 ```
 
 2. Change the shape to be hollow squares with color mapped to the `species` variable. 
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  geom_point(aes(color = species),
+                 shape = 0)
 ```
 
 3. Change the shape to be filled squares with color mapped to the `species` variable and fill set with a color of your choosing.
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  geom_point(aes(color = species),
+             shape = 22,
+             fill = "tomato")
 ```
 
 Part 2: Use R code to recreate the graphs below
@@ -100,19 +161,35 @@ Part 2: Use R code to recreate the graphs below
 A. https://drive.google.com/uc?export=view&id=18OVNxbNI2MhaNTVO7W5FN_Yn-2hkxKgG
 
 ```{r}
+penguins %>%
+  ggplot(aes( x = bill_length_mm,
+              y = flipper_length_mm)) + 
+  geom_point(aes(color = species,
+                 shape = island)) + 
+  geom_smooth(method = "lm", se = FALSE, color = "blue")
 
 ```
 
 B. https://drive.google.com/uc?export=view&id=1giVWU7yzuD5XND7LE_Ub88tKohtswbtk
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = bill_depth_mm,
+              y = body_mass_g,
+              color = species)) + 
+  geom_point(shape = 4)
 ```
 
 C. https://drive.google.com/uc?export=view&id=1QpR3ph7oCJiLJXRE_hio_agWOQwgNWNd
 
 ```{r}
-
+penguins %>%
+  ggplot(aes( x = body_mass_g,
+              y = bill_length_mm)) + 
+  geom_point(color = "red",
+             shape = 18) +
+  geom_point(color = "green",
+             shape = 23)
 ```
 
 *Bonus Challenge (ungraded):* See if you can think of a way to use what we demonstrated above to take your code from the Exercise 6, part 2, question 3, and give each observation a thicker outside border. The result should look like the graph below:
@@ -120,12 +197,33 @@ C. https://drive.google.com/uc?export=view&id=1QpR3ph7oCJiLJXRE_hio_agWOQwgNWNd
 https://drive.google.com/uc?export=view&id=1N_9zRcePm8j1ffGGoZgJzUP6XbqisHIR
 
 ```{r}
-
+penguins %>%
+  ggplot(aes( x = body_mass_g,
+              y = bill_length_mm)) + 
+  geom_point(color = "green",
+             shape = 18,
+             size = 4) +
+  geom_point(color = "red",
+             shape = 18,
+             size = 2)
 ```
 
 7. Update the main graph you have been working with throughout the exercises to make the observations more translucent. First try doing so by mapping it to `island`. Then, create another graph where you set the alpha yourself. Try to pick the value you think makes the graph most legible and effective.
 
 ```{r}
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g,
+                       color = island)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") 
+
+penguins %>%
+  ggplot(mapping = aes(x = flipper_length_mm,
+                       y = body_mass_g)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_point(aes(color = island,
+                 alpha = .3)) 
 
 ```
 
@@ -136,7 +234,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 120
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -146,7 +244,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 5
 ```
     
     
@@ -156,7 +254,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 8
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
