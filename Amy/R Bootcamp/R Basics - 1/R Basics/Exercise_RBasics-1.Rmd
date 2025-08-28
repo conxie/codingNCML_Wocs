@@ -38,7 +38,7 @@ var2 = 6
  E. Find the quotient of 9 and 2
 
 ```{r}
-9 %% 2
+9 / 2
 ```
 
  2. Comparison Operators
@@ -332,7 +332,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 5
+challenge = 3
 ```
     
     
