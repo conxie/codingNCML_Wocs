@@ -29,7 +29,7 @@ var2 = 6
 
  C. Exponentiate 3 to the power of 3
 ```{r} 
-3**3
+3^3
 ```
 
  D. Find the difference of 89 and 16
@@ -47,22 +47,22 @@ var2 = 6
 
  A. Write a test to evaluate whether `var1` is less than `var2`
 ```{r} 
-
+var1 < var1
 ```
 
  B. Write a test to evaluate whether `var1` is equal to `var2`
 ```{r} 
-
+var1 == var2
 ```
 
  C. Write a test to evaluate whether the sum of `var1` and `var2` is greater than or equal to the product of `var1` and `var2`
 ```{r} 
-
+(var1 + var2) >- (var1 * var2)
 ```
 
  D. Write a test to evaluate whether `var2` squared is not equal to `var1` cubed.
 ```{r}
-
+var2^2 != var1^2
 ```
 
  E. Write a test to evaluate whether the remained of `var1` squared divided by `var2` is greater than 0.
