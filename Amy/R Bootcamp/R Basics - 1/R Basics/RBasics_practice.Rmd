@@ -272,7 +272,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 4
+challenge = 2
 ```
     
     
