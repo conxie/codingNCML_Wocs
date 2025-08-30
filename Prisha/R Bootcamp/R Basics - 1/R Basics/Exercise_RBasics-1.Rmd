@@ -47,7 +47,7 @@ var2 = 6
 
  A. Write a test to evaluate whether `var1` is less than `var2`
 ```{r} 
-var1 < var1
+var1 < var2
 ```
 
  B. Write a test to evaluate whether `var1` is equal to `var2`
@@ -57,18 +57,18 @@ var1 == var2
 
  C. Write a test to evaluate whether the sum of `var1` and `var2` is greater than or equal to the product of `var1` and `var2`
 ```{r} 
-(var1 + var2) >- (var1 * var2)
+(var1 + var2) >= (var1 * var2)
 ```
 
  D. Write a test to evaluate whether `var2` squared is not equal to `var1` cubed.
 ```{r}
-var2^2 != var1^2
+(var2^2) != (var1^3)
 ```
 
  E. Write a test to evaluate whether the remained of `var1` squared divided by `var2` is greater than 0.
 
 ```{r}
-(var1^2 %% var2) > 0
+((var1^2) %% var2) > 0
 ```
 
  F. Write a test to evaluate whether `var2` squared is less than or equal to 50
@@ -81,20 +81,17 @@ var2^2 != var1^2
 
  A. Use `&` to evaluate 2A. and 2C.
 ```{r}
-'2A' <- TRUE
-'2B' <- FALSE
-
-2A.&2C.
+(var1 < var2) & ((var1 + var2) >= (var1 * var2))
 ```
 
  B. Use `!` to evaluate 2D.
 ```{r}
-!2D
+!((var2^2) != (var1^2))
 ```
 
  C. Use `|` to evaluate 2E. and 2B.
 ```{r}
-2E | 2B
+(((var1^2) %% var2) > 0) | (var1 == var2)
 ```
 
  D. Now, use each operator (`&`, `!`, and `|`) combined with at least one other operator (logical or comparison operators).
@@ -102,8 +99,7 @@ var2^2 != var1^2
 `&`
 
 ```{r}
-(TRUE & FALSE) == TRUE
-```
+(var1 & var2) > var2
 
 `!`
 
@@ -149,7 +145,7 @@ last_last <- myVector3[3]
  7. Complete the code below to create a dataframe called `my_df` that has information about you.
 
 ```{r exercise 7}
-data.frame("Name" = "Prisha",
+my_df <- data.frame("Name" = "Prisha",
                "Class" = "PSYC193L",
                "Term" = "Fall")
 ```
@@ -159,13 +155,16 @@ data.frame("Name" = "Prisha",
  A. Index the first row of your dataframe and save it to a variable called `df_first_row`. Index the course name (1st value of 2nd row) and save it to a variable called `course_name`. 
  
 ```{r exercise 8a}
-
+df_first_row <- my_df[1, ]
+course_name <- my_df[1, 2]
 
 ```
  
  B. Now index the course name in a different way and save it to a variable called `course_name_alt`. Write a test to valuate whether `course_name` and `course_name_alt` are equivalent.
 
 ```{r exercise 8b}
+course_name_alt <- my_df$Class[1]
+course_name_alt == course_name
 
 ```
 
@@ -190,26 +189,35 @@ data.frame("Name" = "Prisha",
 - ggridges
 
 ```{r, eval = FALSE}
-
+install.packages("tidyverse")
+install.packages("patchwork")
+install.packages("magrittr")
+install.packages("viridis")
+install.packages("RColorBrewer")
+install.packages("DT")
+install.packages("ggExtra")
+install.packages("gridExtra")
+install.packages("reprex")
 ```
 
 
  2. Create a new code chunk below. Name the code chunk "exercise 2".
 
+```{r excercise 2}
 
-
+```
 
 
 
  3. Clean up all the code below so that it follows the proper formatting guidelines listed above.
 
 ```{r exercise 3, eval = FALSE}
-df[,4]
+df[ ,4]
 df[ ,2]
-df[ , 0]
+df[ ,0]
 
 mean (df$col, na.rm = TRUE)
-mean( df$col, na.rm = TRUE )
+mean(df$col, na.rm = TRUE )
 
 3+4+5
 -2*8^2
