@@ -104,6 +104,7 @@ var1 == var2
 `!`
 
 ```{r}
+
 !FALSE == TRUE
 ```
 
@@ -190,6 +191,7 @@ course_name_alt == course_name
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
+library(tidyverse)
 install.packages("patchwork")
 install.packages("magrittr")
 install.packages("viridis")
@@ -198,6 +200,11 @@ install.packages("DT")
 install.packages("ggExtra")
 install.packages("gridExtra")
 install.packages("reprex")
+install.packages("knitr")
+install.packages("markdown")
+install.packages("palmerpenguins")
+install.packages("janitor")
+install.packages("ggridges")
 ```
 
 
@@ -212,47 +219,56 @@ install.packages("reprex")
  3. Clean up all the code below so that it follows the proper formatting guidelines listed above.
 
 ```{r exercise 3, eval = FALSE}
-df[ ,4]
-df[ ,2]
-df[ ,0]
+df[, 4]
+df[, 2]
+df[, 0]
 
-mean (df$col, na.rm = TRUE)
-mean(df$col, na.rm = TRUE )
+mean(df$col, na.rm = TRUE)
+mean(df$col, na.rm = TRUE)
 
-3+4+5
--2*8^2
+3 + 4 + 5
+-2 * (8^2)
 
 #compute persons height
-height<-feet*12+inches
-T+1<2
-!F|F+1
+height <- ((feet*12) + inches)
+(TRUE +1) < 2
+!FALSE | (FALSE +1)
 
-long_computation('little',bunny=1,foo*2,hopping,through='forest')
+long_computation('little', bunny = 1, (foo*2), hopping, through = 'forest')
 
 ```
 
  4. Rewrite the following code as properly formatted pipe chains.
 
 ```{r exercise 4, eval = FALSE}
+laces %>% 
+  loop() %>% 
+  swoop() %>% 
+  pull() 
 
-pull(swoop(loop(laces)))
-
-
-leave_house(get_dressed(get_out_of_bed(wake_up(me))))
+me %>% 
+  wake_up() %>%
+  get_out_of_bed %>% 
+  get_dressed %>% 
+  leave_house
+  
 ```
 
  5. Download the files for today's class that came with the assignment. Import both the .csv and .RData files. Make sure you save them to variables! Copy/paste their file path in the cell below.
 
 ```{r exercise 6, eval = FALSE}
+my_data <- read.csv("C:/Users/prish/Downloads/codingNCML_Wocs-Prisha/codingNCML_Wocs-Prisha/Prisha/R Bootcamp/R Basics - 1/R Basics/data-2/data/dataset.csv")
+
+load("C:/Users/prish/Downloads/codingNCML_Wocs/Prisha/R Bootcamp/R Basics - 1/R Basics/data-2/data/dataset.csv/dataset.RData)
 
 ```
 
  6. Export your `my_df` dataframe as a .csv file called "my_dataframe.csv". Export your dataframe and all the variables you saved to an .RData file called "my_data.RData".
 
 ```{r exercise 7, eval = FALSE}
-
+write_csv(my_df, file = "my_dataframe.csv")
+save(list = ls(), file = "my_data.RData")
 ```
-
 
 # Feedback 
 
@@ -261,7 +277,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 120
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -271,7 +287,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 8
 ```
     
     
@@ -281,11 +297,8 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 5
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
-
-I was a little confused with the evalute logistical operators questions.
-
 
