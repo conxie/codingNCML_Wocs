@@ -267,7 +267,7 @@ load("C:/Users/prish/Downloads/codingNCML_Wocs/Prisha/R Bootcamp/R Basics - 1/R 
 
 ```{r exercise 7, eval = FALSE}
 write_csv(my_df, file = "my_dataframe.csv")
-save(list = ls(), file = "my_data.RData")
+save(my_df, file = "my_data.RData")
 ```
 
 # Feedback 
