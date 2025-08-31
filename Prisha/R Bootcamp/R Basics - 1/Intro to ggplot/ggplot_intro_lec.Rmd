@@ -33,7 +33,8 @@ There are 3 different species of penguins in this dataset, collected from 3 isla
 > Use `library()` to load in the `palmerpenguins` dataset
 
 ```{r}
-
+install.packages("palmerpenguins")
+library(palmerpenguins)
 ```
 
 ## A Basic Graph
@@ -43,9 +44,12 @@ All ggplot graphs are build using the `ggplot()` call. The first thing it needs 
 > pipe in the `penguins` dataframe to `ggplot()`
 
 ```{r}
+install.packages("tidyverse")
+library(tidyverse)
 
+penguins %>%
+  ggplot()
 ```
-
 > ""
 
 ggplot needs to be told what variables from your data should be *map*ped to the *aes*thetics you want to render on your graph. You will do that with `aes()`.
@@ -54,8 +58,8 @@ ggplot needs to be told what variables from your data should be *map*ped to the 
 
 ```{r}
 penguins %>%
-  ggplot(mapping = aes(y = ,
-                       x = ))
+  ggplot(mapping = aes(y = flipper_length_mm,
+                       x = bill_length_mm))
 ```
 
 > ""
@@ -70,7 +74,7 @@ Geoms have the general syntax of `geom_X()`, where X usually refers to the speci
 penguins %>%
   ggplot(mapping = aes(y = flipper_length_mm,
                        x = bill_length_mm)) +
-  geom_X()
+  geom_point()
 ```
 
 > ""
@@ -87,6 +91,7 @@ Looking at your warnings and errors is always important, but especially so when 
 
 For every visualization you create, make a verbal description of the pattern seen underneath.
 
+Generally, penguins with greater flipper length tend to have greater bill length resulting in a positive correlation (as the flipper length increases, the bill length also increases).
 
 # Aesthetics
 
@@ -100,6 +105,8 @@ Prior to running code -- declare formal predictions by stating two mutually excl
 
 --
 prediction here
+I could observe two clusters. One cluster could be male penguins which would be bigger and at the top and the other cluster would be female penguins at the bottom.
+
 --
 
 > Replace the X's in the code below to have map `color` to `sex`
@@ -108,7 +115,7 @@ prediction here
 penguins %>%
   ggplot(mapping = aes(y = flipper_length_mm,
                        x = bill_length_mm),
-         X = X) +
+         color = sex) +
   geom_point()
 ```
 
@@ -166,7 +173,11 @@ penguins %>%
 > Correct the code above so that only the points are mapped to `species`.
 
 ```{r}
-
+penguins %>%
+  ggplot(mapping = aes(y = flipper_length_mm,
+                       x = bill_length_mm,
+                       color = species)) +
+  geom_point()
 ```
 
 ### Setting vs Mapping Aesthetics
@@ -191,7 +202,7 @@ By writing `orange` like this, R thinks it is a variable in the `penguins` datas
 penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
-  geom_point(color = "X") +
+  geom_point(color = "orange") +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -203,7 +214,7 @@ This can be done for any geom.
 penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
-  geom_point(color = "orange") +
+  geom_point(color = "blue") +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -253,7 +264,7 @@ penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
   geom_point(aes(color = species,
-                 X = X)) +
+                 shape = species)) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -266,7 +277,7 @@ penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
   geom_point(aes(color = species,
-                 X = X)) +
+                 shape = island)) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -287,7 +298,7 @@ penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
   geom_point(aes(color = species),
-             X = X) +
+             shape = 17) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -301,7 +312,7 @@ penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
   geom_point(aes(color = species),
-             X = X) +
+             shape = 2) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -315,7 +326,7 @@ penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
   geom_point(aes(color = species),
-             X = X) +
+             shape = 24) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -340,9 +351,9 @@ Size is another aesthetic that can be set.
 penguins %>%
   ggplot(aes(y = flipper_length_mm,
              x = bill_length_mm)) +
-  geom_point(aes(X = X,
-                 X = X,
-                 X = X)) +
+  geom_point(aes(color = species,
+                 shape = species,
+                 size = species)) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -353,7 +364,13 @@ This does is demonstrate what is meant by saying, **"ggplot is additive/layered"
 > Try adding the geoms in a different order and see what happens
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = flipper_length_mm,
+             x = bill_length_mm)) +
+  geom_point(aes(shape = species,
+                 size = species,
+                 color = species)) +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
 This concept is very important to keep in mind when creating your visualizations. **Order matters!**
@@ -372,7 +389,8 @@ penguins %>%
              x = bill_length_mm)) +
   geom_point(aes(color = species),
              shape = 24,
-             fill = 'darkgrey') +
+             fill = 'darkgrey', 
+             size = 4) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -392,7 +410,7 @@ penguins %>%
   geom_point(aes(color = species,
                  shape = species,
                  size = species,
-                 X = X)) +
+                 alpha = species)) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -411,7 +429,7 @@ penguins %>%
   geom_point(aes(color = species,
                  shape = species),
              size = 3,
-             alpha = ) +
+             alpha = 0.9) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
@@ -423,7 +441,7 @@ penguins %>%
   geom_point(aes(color = species,
                  shape = species),
              size = 3,
-             alpha = ) +
+             alpha = 0.2) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
