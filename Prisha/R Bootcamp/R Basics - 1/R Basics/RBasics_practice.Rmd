@@ -11,37 +11,37 @@ output: html_document
 "+"
 
 ```{r}
-
+8 + 8
 ```
 
 "-"
 
 ```{r}
-
+6 - 2
 ```
 
 "*"
 
 ```{r}
-
+4 * 7 
 ```
 
 "/"
 
 ```{r}
-
+4 / 2
 ```
 
 "^"
 
 ```{r}
-
+6^2
 ```
 
 "%%"
 
 ```{r}
-
+10 %% 2
 ```
 
 
@@ -50,37 +50,38 @@ output: html_document
 "<"
 
 ```{r}
-
+5 < 6
 ```
 
 ">"
 
 ```{r}
-
+10 > 5
 ```
 
 "<="
 
 ```{r}
-
+3 <= 3
 ```
 
 ">="
 
 ```{r}
-
+4 >= TRUE + TRUE
 ```
 
 "=="
 
 ```{r}
+5 == 9
 
 ```
 
 "!="
 
 ```{r}
-
+TRUE != FALSE
 ```
 
 3. 
@@ -89,24 +90,30 @@ output: html_document
 "&"
 
 ```{r}
-
+TRUE & TRUE
 ```
 
 "|"
 
 ```{r}
-
+TRUE | FALSE
 ```
 
 "!"
 
 ```{r}
+!FALSE
 
 ```
 
 B. Use *each* operator (`&`, `!`, and `|`) combined with at least one operator from exercise 1 or 2 as well.
 
 ```{r}
+TRUE + !FALSE
+
+TRUE & FALSE == FALSE
+
+TRUE | FALSE != 0
 
 ```
 
@@ -114,7 +121,9 @@ B. Use *each* operator (`&`, `!`, and `|`) combined with at least one operator f
 C. Now, use *each* operator (`&`, `!`, and `|`) combined with at least one *other* operator (logical or comparison operators).
 
 ```{r}
-
+(TRUE + !FALSE) == 2
+!(2==2)
+(10 == 2) | (7 <=7) 
 ```
 
 
@@ -123,20 +132,23 @@ C. Now, use *each* operator (`&`, `!`, and `|`) combined with at least one *othe
 A. number
 
 ```{r}
-
+var1 <- 2
+typeof(var1)
 ```
 
 B. character
 
 ```{r}
-
+var2 <- "Hi"
+typeof(var2)
 ```
 
 
 C. logical
 
 ```{r}
-
+var3 <- TRUE
+typeof(var3)
 ```
 
 5. Create 3 vectors that each contain a different type of data (number, character, and logical). See which operations can be applied to each vector.
@@ -144,18 +156,23 @@ C. logical
   A. number
 
 ```{r}
+vector1 = c(2, 3, 4, 5)
+vector1 * 2
 
 ```
 
   B. character
 
 ```{r}
-
+vector2 = c("Hi", "Hola", "Bounjour")
+vector2 == "Hi!"
 ```
 
   C. logical
 
 ```{r exercise 5}
+vector3 = c(TRUE, FALSE, TRUE)
+vector3 + TRUE
 
 ```
 
@@ -164,24 +181,28 @@ C. logical
   A. Index the 1st and 2nd element from the vector in 5A
 
 ```{r}
+vector1[c(1, 2)]
 
 ```
 
   B. Index the 2nd and 3rd element from the vector in 5B.
   
 ```{r}
-
+vector2[c(2, 3)]
 ```
   
   C. Save the first element from your first vector to a variable called `first_first`.
   
 ```{r}
-
+first_first <- vector1[1]
+first_first
 ```
 
   D. Save the last element from your last vector to one called `last_last`.
   
 ```{r}
+last_last <- vector3[length(vector3)]
+last_last
 
 ```
   
@@ -189,6 +210,7 @@ C. logical
 7. Create a dataframe called `my_df` that has information about your top 3 favorite animals. It should contain 3 columns: 1. One that has the words, "first", "second", and "third". 2. Another that has the animals names. 3. A third having a rating, on a scale of 1-10, of how likely you think it is you could beat that animal in a fight to the death.
 
 ```{r exercise 7}
+
 
 ```
 
@@ -217,7 +239,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 60
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -227,7 +249,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 5
 ```
     
     
@@ -237,7 +259,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 7
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
