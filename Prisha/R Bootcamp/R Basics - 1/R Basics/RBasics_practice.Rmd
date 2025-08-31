@@ -210,24 +210,40 @@ last_last
 7. Create a dataframe called `my_df` that has information about your top 3 favorite animals. It should contain 3 columns: 1. One that has the words, "first", "second", and "third". 2. Another that has the animals names. 3. A third having a rating, on a scale of 1-10, of how likely you think it is you could beat that animal in a fight to the death.
 
 ```{r exercise 7}
-
+my_df <- data.frame("Place" = c("First", "Second", "Third"),
+           "Animals" = c("Penguins", "Elephants", "Zebras"),
+           "Rating" = c(2, 7, 8))
+my_df
 
 ```
 
 8. Index the second row of your dataframe and save it to a variable called `df_second_row`. Index the name of your second favorite animal and save it to a variable called `second_fave`. Index the battle likelihood rating for your third favorite animal and save it to a variable called `third_rating`.
 
 ```{r exercise 8}
+df_second_row <- my_df[2, ]
+df_second_row
 
+second_fave <- my_df[2, 2]
+second_fave
+
+third_rating <- my_df[3, 3]
+third_rating
 ```
 
 9. Rewrite the following code as properly formatted pipe chains.
 
 ```{r, eval = FALSE}
-park(drive(start_car(find("keys")), to = "campus"))
 
-
-brush(tooth_paste(running_water(tooth_brush)), teeth)
-
+keys %>% 
+  find() %>% 
+  start_car() %>% 
+  drive(to = "campus") %>% 
+  park() 
+  
+toothbrush %>% 
+  running water() %>% 
+  tooth_paste() %>% 
+  brush(teeth) 
 
 ```
 
@@ -249,7 +265,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 5
+challenge = 6
 ```
     
     
