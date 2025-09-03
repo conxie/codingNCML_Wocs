@@ -5,6 +5,8 @@ date: "08/27/25"
 output: html_document
 ---
 
+CX comments: nice work -- just see comment on Q7.
+
 ```{r}
 library(tidyverse)
 library(palmerpenguins)
@@ -218,6 +220,7 @@ penguins %>%
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, color = "blue") 
 
+#alpha should be set outside of aes()
 penguins %>%
   ggplot(mapping = aes(x = flipper_length_mm,
                        y = body_mass_g)) +

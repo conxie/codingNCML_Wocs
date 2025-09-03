@@ -5,6 +5,8 @@ date: "082825"
 output: html_document
 ---
 
+CX comments: no issues noted. nice work!
+
 # Operators
 
 ## 1. Arithmatic
@@ -233,6 +235,9 @@ E. Finally, now having the totals from both sports, you can find and print your 
 ```{r}
 week1_total <- (RGymnastics_total + CanoeSlalom_total)
 week1_total
+
+
+#CX: you can also do sum(RGymnastics_total) + sum(CanoeSlalom_total)
 ```
 
 Hey, alright now! To know which event to bet on next week, you have to answer the next question:

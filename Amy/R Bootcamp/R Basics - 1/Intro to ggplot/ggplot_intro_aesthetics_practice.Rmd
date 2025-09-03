@@ -5,10 +5,12 @@ date: "8/27/2025"
 output: html_document
 ---
 
+CX comments: good work again! Graphs & descriptions look good.
+
 ```{r}
 library(tidyverse)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/R Basics - 1/Intro to ggplot/diamonds_sample.RData") 
+load("C:/Users/cocon/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/R Basics - 1/Intro to ggplot/diamonds_sample.RData") 
 ```
 
 

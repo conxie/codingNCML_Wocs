@@ -5,6 +5,7 @@ date: "082625"
 output: html_document
 ---
 
+CX comments: good job. no mistakes noted. 
 
 1. Use each of the following operators in a new expression:
 
@@ -209,6 +210,10 @@ first_first
   D. Save the last element from your last vector to one called `last_last`.
   
 ```{r}
+#correct. you could also do length()
+myVector3[length(myVector3)]
+
+
 last_last <- myVector3[4]
 last_last
 ```
