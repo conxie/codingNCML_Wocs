@@ -1,7 +1,7 @@
 ---
-title: ""
-author: ""
-date: ""
+title: "color_practice.Rmd"
+author: "Amy"
+date: "9/10/25"
 output: html_document
 ---
 
@@ -13,7 +13,7 @@ library(colorspace)
 library(viridis)
 library(tidyverse)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Color Theory/diamonds_sample.RData") 
 ```
 
 They say that diamonds are a person's best friend, so why stop using the `diamonds_sample` dataset now?! 
