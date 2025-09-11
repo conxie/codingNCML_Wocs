@@ -1,14 +1,14 @@
 ---
 title: "Geoms Practice Problem Set"
-author: ""
-date: ""
+author: "Amy"
+date: "9/10/25"
 output: html_document
 ---
 
 ```{r}
 library(tidyverse)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Geoms and Different Graphs/diamonds_sample.RData") 
 ```
 
 # Intro
@@ -43,196 +43,313 @@ These are clearly marked in the questions that expect them. When a question has 
 1. Use `geom_bar()` to create a bar graph for `clarity`.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = clarity)) +
+  geom_bar(color = "tomato", fill = "purple")
 ```
 
 2. Use `geom_bar()` to create a bar graph for `color`. Make the bars themselves be filled with violet and have a blue outline. 
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color)) +
+  geom_bar(fill = "violet", color = "blue")
 ```
 
 3. Use `geom_histogram()` to create a histogram for `price`.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = price)) +
+  geom_histogram(color = "black")
 ```
 
 4. Use `geom_histogram()` to create a histogram for `carat`. Make the bars themselves be filled with cyan with a turquoise outline. Add a vertical bar at where you think the average might be.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = carat)) +
+  geom_histogram(fill = "cyan", 
+                 color = "turquoise") +
+  geom_vline(aes(xintercept = 0.8))
 
 ```
 
 5. Use `geom_point()` to create a scatter plot for `carat` and `depth`. Add the line of best fit, and make any aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *What is the relationship between the depth of a diamond and carat?*
 
 Prediction:
-  *Prediction here*
+  *I predict that higher depth correlates to higher carat, thus, there should be a positive linear line if that is the case. On the other hand, if there is no correlation, there will be flat line. If there is a negative correlation, there will be a negative line of best fit.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = depth, y = carat)) +
+  geom_point(color = "blue",
+             size = 3,
+             alpha = 0.5,
+             shape = 15) +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
 Summary:
-  *Summary here*
+  *Based on the graph, there is somewhat of a positive linear relationship between depth and carat. However, it is quite flat, which indiciates that it is not a strong corrrelation.*
 
 
 6. Create 2D histogram (regular or hexbin) for `y` and `table`.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = table, y = y)) +
+  geom_hex()
 ```
 Summary:
-  *Summary here*
+  *This hexbin indicates that there is greatest amount of diamonds around y of 3.5-8 and table of 55-70. Beyond this chunk, they are sparse.*
 
 
 7. Take your visualizations from questions 5 and 6 and add information about the individual distributions to the margins (whichever way you prefer).
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = depth, y = carat)) +
+  geom_point(color = "blue",
+             size = 2,
+             alpha = 0.5,
+             shape = 15) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_rug(alpha = .5, size = 2, color = "blue")
 
+library(ggExtra)
+p <- ggplot(diamonds_sample, aes(x = table, y = y)) +
+  geom_hex() +
+  geom_point(alpha = 0)
+
+ggExtra::ggMarginal(p, type = "histogram")
 ```
 
 Do you think one of these two is better/more effective than the other? If so, which and why? If not, why not?
 
-*answer here*
+*I think using geom_rug is better because it allows for an easier way to visualize the data. The other graph is hard to interpret because we cannot see the individual points, and the histograms on the sides make it a bit confusing. *
 
 
 8. Use `stat_summary()` to show the mean `depth` for `color`. Represent the mean with a bar (note: *not* a vline), and include standard error *bars*. Make any aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *What are the means of a diamonds depth and color?*
 
 Prediction:
-  *Prediction here*
+  *If depth and color have an influence on each other, the means should vary. If not, the means should all be similar heights.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color, 
+             y = depth)) +
+  stat_summary(fun = "mean", geom = "bar") +
+  stat_summary(aes(color = color), 
+               fun.data = "mean_se", 
+               geom = "errorbar", width = 0.5)
 ```
 
 Summary:
-  *Summary here*
+  *The mean values appear to all be the same height. The error bar are very small across the different color of diamonds, showing that depth and color of a diamond are independent of one another.*
 
 
 9. Use `stat_summary()` to show the mean `price` for `cut`. Represent the mean with a point, and include standard error *lines*. Make any aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = cut, y = price)) +
+  stat_summary(aes(color = cut), fun.data = "mean_se", geom = "errorbar") +
+  stat_summary(fun = "mean", geom = "point")
 ```
 
 Summary:
-  *Summary here*
+  *Based on the graph, we see that premium cut has the highest price, while ideal is the lowest. Far, good, and very good are generally around the same range.*
 
 
 10. Take your code from question 9 and modify it so that there is a longdash line connecting each of the points.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = cut, y = price)) +
+  stat_summary(aes(color = cut), fun.data = "mean_se", geom = "errorbar") +
+  stat_summary(fun = "mean", geom = "line", group = 1, linetype = "longdash") +
+  stat_summary(fun = "mean", geom = "point")
 
 ```
 
 11. `geom_boxplot()` to create a boxplot for `depth` and `clarity`. Make the boxplots sienna with a salmon outline. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = clarity, y = depth)) +
+  geom_boxplot(color = "salmon", fill = "grey")
 ```
 
 What more can you say from this visualization than the one you made in question 8?
 
-*answer here*
+*From this visualizion compared to the one in question 8, I can see what the outliers are, the percentiles, and the median. Overall, there is a clearer reading of the individual data points.*
 
 
 12. `geom_boxplot()` to create a boxplot for `price` and `cut`. Make the boxplots' color and outline (the *fill* and *color* arguments) depend on their `cut`. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph (make sure the median line is visible).
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = cut, 
+             y = price)) +
+  geom_boxplot(aes(fill = "cut", 
+                   color = "cut"),
+               alpha = 0.4)
 ```
 
 What more can you say from this visualization than the one you made in question 9?
 
-*answer here*
+*Once again, I can see the outliers, the percentiles, the median, and overall a clearer picture of the range of data.*
 
 
 13. Use `geom_violin()` to create a violin plot for `carat` and `clarity`. Include a boxplot inside the violin. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = clarity,
+             y = carat)) +
+  geom_violin(aes(color = clarity)) +
+  geom_boxplot((aes(color = clarity, fill = clarity)), col = 1, width = 0.2)
 ```
 
 Summary:
-  *Summary here*
+  *The violin plot shows the distribution of diamond carat weights across different clarity grades. Lower clarity diamonds (like I1, SI2) tend to have a wider range and higher carat values, while higher clarity diamonds (like IF, VVS1) are generally smaller and less variable in size. This suggests that larger diamonds are more likely to have lower clarity.*
 
 
 14. Use `geom_violin()` to create a violin plot for `carat` and `color`. Include a point for the mean, and error bars around the mean. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color,
+             y = carat)) +
+  geom_violin(aes(color = color, fill = color)) +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.5, color = "tomato") +
+  stat_summary(fun = "mean", geom = "point")
 ```
 
 15. Use `geom_jitter()` to create a jitter plot for `price` and `cut`. Include a point for the mean and error lines around the mean. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *How does the average price of diamonds vary by cut, and is there  overlap in price distributions between cut categories?*
 
 Prediction:
-  *Prediction here*
+  *If diamond price depends on cut quality, we should see tighter clusters of lower prices as cut quality gets worse. On the other hand, if cut has little impact on price, the data points would be more randomly spread out. A clear positive trend would mean that average prices drop consistently with lower cut grades.*
 
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = cut,
+             y = price)) +
+  geom_jitter(aes(color = cut), alpha = 0.7) + 
+  geom_boxplot(aes(color = cut), alpha = .5) + 
+  stat_summary(fun = "mean", geom = "point", color = "black") + 
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = .6, color = "black")
 ```
 
 Summary:
-  *Summary here*
+  *The graph shows ideal cuts have the lowest mean price compared to the other cuts. In contrast, premium cuts had the highest mean. Other than that, dar, good, and very good seemed to be within the same range.*
 
 16. Take your visualization from question 14 and add on jittered points to show the whole distribution of data on top of the violins. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color,
+             y = carat)) +
+  geom_violin(aes(color = color, fill = color)) +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.5, color = "tomato") +
+  geom_jitter(alpha = .3) +
+  stat_summary(fun = "mean", geom = "point")
 ```
 
 17. Use `geom_jitter()` to create a strip chart for `z` and `clarity`. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = clarity,
+             y = z)) +
+  geom_jitter(aes(color = clarity),
+              width = 0.2, 
+              height = 0, 
+              alpha = 0.5) +
+  stat_summary(fun = mean, 
+               geom = "crossbar", 
+               width = 0.5, 
+               color = "blue")
 ```
 
 18. Use `geom_jitter()` to create a jitter plot for `price` and `color`. Include a point for the mean and error lines around the mean. Map the color of the points to `cut`. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color,
+             y = price)) +
+  geom_jitter(aes(color = cut),
+              size = 2, 
+              height = 0, 
+              alpha = 0.5) +
+  stat_summary(fun = "mean", geom = "point") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar")
 ```
 
 19. Use `geom_jitter()` to create a jitter plot for `price` and `color`. Include a point for the mean and error lines around the mean. Facet this graph by `cut`. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = color,
+             y = price)) +
+  geom_jitter(color = "blue",
+              size = 2, 
+              height = 0, 
+              alpha = 0.5) +
+  stat_summary(fun = "mean", geom = "point") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar") +  
+  facet_grid(col = vars(cut))
 
 ```
 
 20. Do you think that the graph created in 18 or 19 is more effective? Explain why.
 
 
-*Answer here*
+*I think the graph for 18 is more effective since we can better see the relationship between color and price. 19 does not offer that much more information because we can see the difference between cut in 18 as well. Overall, 18 is more straightforward.*
 
 21. Use `stat_summary_2d()` to make a raster plot for `clarity` (y), `cut` (x), and `price` (z). Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *Together, how do clarity and cut influence the price of a diamond?*
 
 Prediction:
-  *Prediction here*
+  *If they all interact with one another, we should see that if clarity and cut increase, so should the price, and vice versa.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(y = clarity,
+             x = cut,
+             z = price)) + 
+   stat_summary_2d(fun = "mean", 
+                   geom = "tile", 
+                   color = "black")
 ```
 Summary:
-  *Summary here*
+  *Based on the graph, there does not appear to be any patterns with high price correlating to high cut and clarity. Very good cut and clarity IF is the highest value, while everything else seems mixed around the middle range.*
 
 
 22. Create a scatter plot for `price` and `carat`. Add a line of best fit. Facet by `cut`. Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = carat,
+             y = price)) +
+  geom_point(aes(color = carat), 
+             size = 3,
+             alpha = 0.5) +
+  facet_grid(col = vars(cut)) +
+  geom_smooth(method = "lm", se = FALSE, color = "black")
 
 ```
 
@@ -241,17 +358,22 @@ Summary:
 23. Use `stat_summary_hex()` or `stat_summary_2d()` to create a raster plot for `carat` (y), `table` (x), and `price` (z). Make any other aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *Together, how do carat and table influence the price of a diamond?*
 
 Prediction:
-  *Prediction here*
+  *If they all interact with one another, we should see that if carat and table increase, so should the price, and vice versa.*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = table,
+             y = carat,
+             z = price)) +
+  stat_summary_2d(fun = "mean", geom = "tile", color = "black")
+             
 ```
 
 Summary:
-  *Summary here*
+  *From the graph, we see that as the carat increases, the price also increases indicated by the lighter blue clusters at the top. On the other hand, table does not seem to have any influence. It is also important to note that there are a couple outliers.*
 
 
 # Free Reign
@@ -259,7 +381,15 @@ Summary:
 Pick any graph you created above and try to make the worst, most illegible, visualization you can. Use whatever aesthetic modifications you want, but do so within reason (e.g., don't just set `size = 100` or something). Write the question number from the original visualization you picked (e.g., "question 3").
 
 ```{r}
+# question 16
 
+diamonds_sample %>%
+  ggplot(aes(x = color,
+             y = carat)) +
+  geom_violin(color = "black", fill = "black", alpha = 0.8) +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.5) +
+  geom_jitter() +
+  stat_summary(fun = "mean", geom = "point")
 ```
 
 
@@ -270,7 +400,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 230
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -280,7 +410,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 6
 ```
     
     
@@ -290,7 +420,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 6
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
