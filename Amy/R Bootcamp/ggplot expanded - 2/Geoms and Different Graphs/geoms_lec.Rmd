@@ -26,7 +26,8 @@ Think about the following question:
 > Create a visualization that has a bar for each island, and that bar's height corresponds to the number of penguins recorded on that island. Use `geom_bar()` to do so, where all you need to specify is an x-axis variable.
 
 ```{r}
-
+ggplot(data = penguins, aes(x = island)) +
+  geom_bar()
 ```
 
 The bars could also represent the *proportion* of all observations that came from each island instead of the raw counts.
@@ -70,7 +71,8 @@ The y-axis represents the *frequency* or *count* of some value or range of value
 > Using `geom_histogram()`, create a histogram to investigate the distribution of `flipper_length_mm`
 
 ```{r}
-
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram() 
 ```
 
 Outline the bars with the color aesthetic.
@@ -78,7 +80,8 @@ Outline the bars with the color aesthetic.
 > Add a black outline to the bars from the visualization above.
 
 ```{r}
-
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(color = "black") 
 ```
 
 #### Bins
@@ -89,7 +92,11 @@ Outline the bars with the color aesthetic.
 > Take the code above and compare the difference between using 5 bins and 15 bins.
   
 ```{r}
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(color = "black", bins = 5)
 
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(color = "black", bins = 15)
 ```
 
 
@@ -100,7 +107,8 @@ Outline the bars with the color aesthetic.
 > Use `geom_density()` to create a density plot showing the distribution of `flipper_length_mm`
 
 ```{r}
-
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_density(color = "black") 
 ```
 
 ### vlines
@@ -114,8 +122,8 @@ penguins %>%
   ggplot(aes(x = flipper_length_mm)) +
   geom_histogram(color = 'black',
                  bins = 15) +  
-  geom_vline(aes(xintercept = X), color = "X", size = 1) +
-  geom_vline(aes(X = X), X = "black", size = 1)
+  geom_vline(aes(xintercept = 180), color = "black", size = 1) +
+  geom_vline(aes(xintercept = 200), X = "black", size = 1)
 
 ```
 
@@ -131,8 +139,8 @@ penguins %>%
 
 ```{r}
 penguins %>%
-  ggplot(aes(y = X, x = X)) +
-  geom_X()
+  ggplot(aes(y = bill_depth_mm, x = body_mass_g)) +
+  geom_point()
 ```
 
 Use scatter plots for datasets with **lower n’s only**.
@@ -145,7 +153,8 @@ For datasets with a **large n**, you can use a 2d histogram with `geom_bin2d()`.
 > Investigate the relationship between `body_mass_g` and `bill_depth_mm` with a 2d histogram
 
 ```{r}
-
+ggplot(data = penguins, aes(x = body_mass_g, y = bill_depth_mm)) +
+  geom_bin2d()
 ```
 
 A hexbin plot using `geom_hex()` is essentially the same thing but uses hexagons.
@@ -153,7 +162,8 @@ A hexbin plot using `geom_hex()` is essentially the same thing but uses hexagons
 > Investigate the relationship between `body_mass_g` and `bill_depth_mm` with a hexbin plot
   
 ```{r}
-
+ggplot(data = penguins, aes(x = body_mass_g, y = bill_depth_mm)) +
+  geom_hex()
 ```
 
 
@@ -169,7 +179,10 @@ Two main arguments:
 > Investigate the relationship between `body_mass_g` and `bill_depth_mm` with a scatter plot and add the line of best fit without error bars
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = bill_depth_mm, x = body_mass_g)) +
+  geom_point() +
+  geom_smooth("method" = "lm", "se" = FALSE)
 ```
 
 
@@ -180,13 +193,21 @@ Including a "rug" to your scatter plots with `geom_rug()` adds some information 
 > Investigate the relationship between `body_mass_g` and `bill_depth_mm` with a scatter plot and add a rug to the graph
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = bill_depth_mm, x = body_mass_g)) +
+  geom_point() +
+  geom_smooth("method" = "lm", "se" = FALSE) +
+  geom_rug()
 ```
 
 > Tweak some of the aesthetic settings in the rug (e.g., alpha, size)
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = bill_depth_mm, x = body_mass_g)) +
+  geom_point() +
+  geom_smooth("method" = "lm", "se" = FALSE) +
+  geom_rug(alpha = .5, size = 2)
 ```
 
 Another way to do so is using `ggMarginal()` from the `ggExtra` package (`ggExtra::ggMarginal()`).
@@ -214,8 +235,8 @@ Helpful to first examine how the values of the continuous variable vary to begin
 > Above, you learned about how to investigate a distribution. Use one of those methods to investigate `body_mass_g`.
 
 ```{r}
-
-
+ggplot(data = penguins, aes(x = island, y = body_mass_g)) +
+  geom_hex()
 ```
 ^ This variability is what is trying to be explained (e.g., perhaps by `island`)
 
@@ -240,18 +261,18 @@ Formal predictions should be made before running the graph code and short summar
 
 Prediction:
 --
-
+I predict that Biscoe will have the highest average body mass, followed by Dream, then Torgersen because Biscoe includes Gentoo penguins, which are heavier.
 --
 
 ```{r}
 penguins %>%
   ggplot(aes(y = body_mass_g, x = island)) + 
-  X(fun = "X", X = "bar")
+  stat_summary(fun = "mean", "geom" = "bar")
 ```
 
 Summary:
 --
-
+The plot confirms my preduction as Biscoe has the highest average body mass, while Dream and Torgersen are the lowest (relatively similar).
 --
 
 #### Point
@@ -259,14 +280,15 @@ Summary:
 > Use `stat_summary()` to compare the mean `body_mass_g` (represented with a point) across `island`
 
 ```{r}
-
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g)) + 
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "blue") 
 ```
 
 
 Summary (compare to when the means were represented with bars)
 --
-
+When using points, the same results is shown, but the differences feel less emphasized because the plot is more minimalist and precise but does not visually "shout" the differences as much as bars do.
 --
 
 #### Line
@@ -274,27 +296,36 @@ Summary (compare to when the means were represented with bars)
 > Use `stat_summary()` to compare the mean `body_mass_g` (represented with a line) across `island`
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g)) + 
+  stat_summary(fun = "mean", geom = "line", color = "blue", size = 1)
 ```
 
 
 > add `group = 1` to the code from above.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) + 
+  stat_summary(fun = "mean", geom = "line", color = "blue", size = 1)
 
 ```
 
 > Change the linetype from the visualization above
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) + 
+  stat_summary(fun = "mean", geom = "line", color = "blue", size = 1, linetype = "dashed")
 ```
 
 > Use `stat_summary()` to compare the mean `body_mass_g` (represented with a point AND a line) across `island`
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) + 
+  stat_summary(fun = "mean", geom = "line", color = "lightblue", size = 1, linetype = "dashed") +
+  stat_summary(fun = 'mean', geom = "point")
 
 ```
 
@@ -310,8 +341,8 @@ You want the *s*tandard *e*rror of your *mean* ("mean_se"), and want that repres
 ```{r}
 penguins %>%
   ggplot(aes(y = body_mass_g, x = island)) +
-  stat_summary(fun = "mean", geom = "X") +
-  stat_summary(fun.data = "X", geom = "X")
+  stat_summary(fun = "mean", geom = "bar") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar")
 ```
 
 
@@ -320,25 +351,36 @@ Note you have to use `fun.data = ` instead of `fun = `.
 > Add a `width` aesthetic to the errorbar in the code above and find a value you think looks good.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = body_mass_g, x = island)) +
+  stat_summary(fun = "mean", geom = "bar") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = .2)
 ```
 
 > Use `stat_summary()` to compare the mean `body_mass_g` (represented with a point) across `island` and add errorbars to the means.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) +
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "blue") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.2, color = "blue") 
 ```
 
 > Take your code from above and use "linerange" as the geom instead of "errorbar"
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) +
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "blue") +
+  stat_summary(fun.data = "mean_se", geom = "linerange", width = 0.2, color = "blue") 
 ```
 
 > Take your code from above, use "pointrange" as the geom, and get rid of the other `stat_summary()` call.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g, group = 1)) +
+  stat_summary(fun.data = "mean_se", geom = "pointrange", width = 0.2, color = "blue") 
 ```
 
 ### Boxplots
@@ -346,7 +388,9 @@ Note you have to use `fun.data = ` instead of `fun = `.
 > Use `geom_boxplot()` to compare the mean `body_mass_g` across `island`
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue")
 ```
 
 ### Problem With Summary Stats
@@ -362,15 +406,18 @@ Best when your dataset has a large n.
 > Use `geom_violin()` to create a violin plot comparing the mean `body_mass_g` across `island`
 
 ```{r}
-
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g)) +
+  geom_violin()
 ```
 
 > Use **both** a violin and boxplot to compare the mean `body_mass_g` across `island`
 
 ```{r}
-
-
+penguins %>%
+  ggplot(aes(x = island, y = body_mass_g)) +
+  geom_violin() +
+  geom_boxplot()
 ```
 
 Since ggplot is an additive/layered system, you can combine different geoms.
@@ -392,8 +439,9 @@ Jitter plots are best for small n’s.
 > Use `geom_jitter()` to create a jitter plot comparing the `body_mass_g` scores across `island`
 
 ```{r}
-
-
+penguins %>%
+  ggplot(aes(y = body_mass_g, x = island)) +
+  geom_jitter()
 ```
 
 jitter plots pair well with other geoms.
@@ -401,14 +449,19 @@ jitter plots pair well with other geoms.
 > Use **both** a boxplot and jitter plot to compare the `body_mass_g` across `island`
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = body_mass_g, x = island)) +
+  geom_jitter() +
+  geom_boxplot()
 ```
 
 > Use **both** a violin and jitter plot to compare the `body_mass_g` across `island`. Include a point indicating the mean as well.
 
 ```{r}
-
-
+penguins %>%
+  ggplot(aes(y = body_mass_g, x = island)) +
+  geom_jitter() +
+  geom_violin()
 ```
 
 
@@ -421,7 +474,7 @@ jitter plots pair well with other geoms.
 ```{r}
 penguins %>%
   ggplot(aes(y = body_mass_g, x = island)) +
-  geom_jitter()
+  geom_jitter(width = .2, height = 0)
 ```
 
 2. Jitter is randomly generated each time the code is executed.
@@ -439,7 +492,11 @@ penguins %>%
 > Create a strip chart plot by taking your jitter plot from above and adding `stat_summary()` to represent the mean using a "crossbar". Use aesthetics to clean up.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(y = body_mass_g, x = island)) +
+  geom_jitter(width = 0.2, height = 0, alpha = 0.5, color = "darkgrey") +
+  stat_summary(fun.min = mean, fun.max = mean, fun = mean, 
+               geom = "crossbar", width = 0.5, color = "blue", size = 1)
 ```
 
 #### Beeswarm/Dot Plot
@@ -485,7 +542,10 @@ Requires the continuous variable to be on the x-axis and the categorical variabl
 > Create a ridgeline plot to compare the distributions of `body_mass_g` across `island`. Play with the `scale` to find the value you think makes the best looking graph.
 
 ```{r}
-
+library(ggridges)
+penguins %>%
+  ggplot(aes(x = body_mass_g, y = island, fill = island)) +
+  geom_density_ridges(scale = 1, alpha = 0.7) 
 ```
 
 raincloud plot:
@@ -495,8 +555,8 @@ raincloud plot:
 ```{r}
 penguins %>%
   ggplot(aes(x = body_mass_g, y = island)) +  
-  ggridges::geom_density_ridges(jittered_points = X, 
-                      X = "X",
+  ggridges::geom_density_ridges(jittered_points = TRUE, 
+                      position = "raincloud",
                       scale = 0.4)
 ```
 
@@ -516,13 +576,13 @@ Done using `facet_grid()` -- specifying what *var*iable(*s*) you want to facet b
 penguins %>%
   ggplot(aes(y = body_mass_g, x = bill_depth_mm)) +
   geom_point() + 
-  facet_grid(cols = vars(X))
+  facet_grid(cols = vars("island"))
 
 # By rows
 penguins %>%
   ggplot(aes(y = body_mass_g, x = bill_depth_mm)) +
   geom_point() +
-  facet_grid(X = X(X))
+  facet_grid(rows = vars("island"))
 ```
 
 > Modify the code below to facet `island` across rows and `species` across columns:
@@ -530,7 +590,14 @@ penguins %>%
 ```{r}
 penguins %>%
     ggplot(aes(y = body_mass_g, x = bill_depth_mm)) +
-    geom_point()
+    geom_point() +
+    facet_grid(cols = vars("species"))
+
+penguins %>%
+    ggplot(aes(y = body_mass_g, x = bill_depth_mm)) +
+    geom_point() +
+    facet_grid(rows = vars("island"))
+
 ```
 
 ### Groups
@@ -541,9 +608,8 @@ Grouping is another way you can plot subsets of data.
 
 ```{r}
 mtcars2 %>%
-    ggplot(aes(y = X, x = X, 
-               group = X, color = X)) +
-    stat_summary(fun = "mean", geom = "line")
+  ggplot(aes(y = wt, x = gear, group = cyl, color = factor(cyl))) +
+  stat_summary(fun = "mean", geom = "line")
 ```
 
 ### Positions
@@ -565,7 +631,7 @@ Instead of `geom_jitter()`, could use `geom_point()` and setting a position argu
 ```{r}
 penguins %>%
  ggplot(aes(x = island, fill = species)) +
-  geom_bar(position = )
+  geom_bar(position = "identity")
 ```
 
 #### Dodging
@@ -577,7 +643,7 @@ penguins %>%
 ```{r}
 penguins %>%
   ggplot(aes(x = island, fill = species)) +
-  geom_bar(X = X)
+  geom_bar(position = "dodge")
 ```
 
 > Add code below to dodge the points, specifying a specific `width` argument.
@@ -585,7 +651,7 @@ penguins %>%
 ```{r}
 penguins %>%
  ggplot(aes(y = body_mass_g, x = island, fill = species)) +
-     geom_point(shape = 21)
+     geom_point(shape = 21, position = position_dodge(width = 0.5))
 ```
 
 Observe the following. By default, they are often come out looking funky:
@@ -627,9 +693,11 @@ Simultaneously dodge and jitter with `position_jitterdodge()`.
 
 ```{r}
 penguins %>%
-ggplot(aes(x = island, y = body_mass_g, fill = species)) +
-    geom_boxplot(outlier.size = 0) +
-    geom_point(shape = 21)
+ ggplot(aes(x = island, y = body_mass_g, fill = species)) +
+  geom_boxplot(position = position_dodge(width = 0.75)) +
+  geom_point(shape = 21,
+             position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.75),
+             alpha = 0.7)
 ```
 
 #### Stacking
@@ -641,7 +709,7 @@ ggplot(aes(x = island, y = body_mass_g, fill = species)) +
 ```{r}
 penguins %>%
 ggplot(aes(x = island, fill = species)) +
-  geom_bar(position = X)
+  geom_bar(position = "fill")
 ```
 
 ## Categorical ~ Categorical
@@ -651,13 +719,13 @@ ggplot(aes(x = island, fill = species)) +
 ```{r}
 # Counts
 penguins %>%
-  ggplot(aes(x = island)) + 
-  geom_bar(X)
+  ggplot(aes(x = island, fill = species)) + 
+  geom_bar()
 
 # Proportions
 penguins %>%
-  ggplot(aes(x = island)) + 
-    geom_bar(position = X)
+  ggplot(aes(x = island, fill = species)) + 
+    geom_bar(position = 'fill')
 ```
 
 ### Cont ~ Cat + Cat
@@ -669,11 +737,11 @@ Add another aesthetic to any Cont ~ Cat
 ```{r}
 penguins %>%
   ggplot(aes(y = body_mass_g, x = island)) +
-  geom_jitter(aes(X),
+  geom_jitter(aes(fill = species),
               size = 1, alpha = 0.7,
               shape = 21,
               position = position_jitterdodge()) +
-  stat_summary(aes(X),
+  stat_summary(aes(fill = species),
                fun.data = "mean_se",
                geom = "pointrange",
                color = "black",
@@ -703,7 +771,9 @@ penguins %>%
                color = "black",
                shape = 21,
                size = 2.5,
-               aes(fill=island))
+               aes(fill=island)) +
+  facet_grid(cols = vars(species))
+
 ```
 
 #### Raster
@@ -712,9 +782,9 @@ penguins %>%
 
 ```{r}
 penguins %>%
-  ggplot(aes(x = X,
-             y = X,
-             z = X)) +
+  ggplot(aes(x = species,
+             y = island,
+             z = body_mass_g)) +
   stat_summary_2d(fun = "mean", geom = "tile")
 ```
 
@@ -727,7 +797,9 @@ Just facet a scatter plot
 ```{r}
 penguins %>%
   ggplot(aes(y = body_mass_g, x = bill_depth_mm)) +
-  geom_point()
+  geom_point() + 
+  facet_grid(cols = vars(species))
+
 ```
 
 
