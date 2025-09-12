@@ -1,7 +1,7 @@
 ---
-title: ""
-author: ""
-date: ""
+title: "Exercise_Geoms.Rmd"
+author: "Amy"
+date: "9/11/25"
 output: html_document
 ---
 
@@ -18,116 +18,271 @@ In the questions below, you will see many notes saying things like, "try out dif
 Count:
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species)) +
+  geom_bar(aes(color = species,
+               fill = species,
+               alpha = 0.7))
 ```
 
 Proportion:
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species)) +
+  geom_bar(aes(y = (..count..)/sum(..count..)),
+           color = "pink",
+           alpha = 0.5,
+           size = 1)
 ```
 
 2. Make a histogram to explore the distribution of `body_mass_g` scores in your dataset. Try out different aesthetic **settings** and see how they change the graph. Also, try different bin settings (size and width) and see how they change your interpretation/understanding of the data.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(fill = "grey",
+                 color = "black",
+                 binwidth = 115)
 ```
 
 3. Take your plot from Exercise 2 and add a colored line approximately where you think the mean would be. Add another line in a different color where you think the mode would be.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(fill = "grey",
+                 color = "black",
+                 binwidth = 115) +
+  geom_vline(aes(xintercept = 4100), color = "tomato", size = 1) +
+  geom_vline(aes(xintercept = 3700), color = "purple", size = 1) 
 ```
 
 4. Create a visualization to explore the relationship between a penguin's `bill_length_mm` and their `flipper_length_mm`. Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_point(size = 2,
+             alpha = 0.8,
+             color = "blue")
 ```
 
 
 5. Create a visualization to explore the relationship between a penguin's `bill_length_mm` and their `flipper_length_mm`. Specifically, create a visualization if you had anticipated having a *large n*. Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_bin2d(size = 0.5,
+             alpha = 1,
+             color = "black")
 ```
 
 6. Take your visualization from Exercise 5 and add a line of best fit for your data. Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_bin2d(size = 0.5,
+             alpha = 1,
+             color = "black") +
+  geom_smooth(method = "lm", 
+              se = FALSE, 
+              color = "red",
+              size = 1)
 ```
 
 
 7. Take your visualization from exercise 6 and try to add some extra information to the margins. Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_bin2d(size = 0.5,
+             alpha = 1,
+             color = "black") +
+  geom_smooth(method = "lm", 
+              se = FALSE, 
+              color = "red",
+              size = 1) +
+  geom_rug(alpha = .2, 
+           size = 2,
+           color = "blue")
 ```
 
 8. Create 3 visualizations to explore how the average penguin `flipper_length_mm` varies across the different `species` of penguins. Use a different shape for the mean in each visualization. Try out different aesthetic **settings**, and see how they change the graph (if you want to try an aesthetic **mapping**, only use the singular variable on your x-axis).
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "bar",
+               color = "pink",
+               fill = "lightpink",
+               alpha = 0.5)
 ```
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "point",
+               color = "pink",
+               alpha = 1,
+               size = 9)
 ```
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "line",
+               linetype = "dashed", 
+               group = 1,
+               color = "pink",
+               size = 2)
 ```
 
 
 9. Take your 3 visualizations created from Exercise 8 and add error bars around the means. Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "bar",
+               color = "pink",
+               fill = "lightpink",
+               alpha = 0.5) +
+    stat_summary(fun.data = "mean_se", 
+                 geom = "errorbar", 
+                 width = .3,
+                 color = "purple")
 ```
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "point",
+               color = "pink",
+               alpha = 0.6,
+               size = 9) +    
+  stat_summary(fun.data = "mean_se", 
+               geom = "errorbar", 
+               width = .14,
+               color = "purple")
 ```
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "line",
+               linetype = "dashed", 
+               group = 1,
+               color = "pink",
+               size = 2) +    
+  stat_summary(fun.data = "mean_se", 
+               geom = "errorbar", 
+               width = .1,
+               color = "purple")
 ```
 
 
 10. Create a boxplot to compare how `flipper_length_mm` varies across penguin `species`. Try out different aesthetic **settings**, and see how they change the graph (if you want to try an aesthetic **mapping**, only use the singular variable on your x-axis).
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  geom_boxplot(size = 0.5,
+               alpha = 0,
+               color = "purple")
 ```
 
 
 11. Take your visualization from Exercise 10 and put a violin underneath to give more information about the distribution of `flipper_length_mm`. Try out different aesthetic **settings**, and see how they change the graph (if you want to try an aesthetic **mapping**, only use the singular variable on your x-axis).
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  geom_violin(alpha = 0,
+              size = 0.4) +
+  geom_boxplot(size = 0.5,
+               alpha = 0,
+               color = "purple") 
 ```
 
 12. Create 2 different types of jitter plots to explore the relationship between a penguin's `flipper_length_mm` and their `species`. Think about which you think is best and why. Try out different aesthetic **settings**, and see how they change the graph (if you want to try an aesthetic **mapping**, only use the singular variable on your x-axis).
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  geom_jitter(color = "brown",
+              height = 0,
+              width = 0.2)
 ```
 
 ```{r}
+# This one is better because it provides additional information aka the mean with the crossbar.
 
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  geom_jitter(width = 0.2, 
+              height = 0, 
+              alpha = 0.5, 
+              color = "brown") +
+  stat_summary(fun = mean, 
+               geom = "crossbar", 
+               width = 0.5, 
+               color = "red", 
+               size = 0.8)
 ```
 
 13. Create a strip chart to compare the mean `flipper_length_mm` between different `species` of penguins. Try out different aesthetic **settings**, and see how they change the graph (if you want to try an aesthetic **mapping**, only use the singular variable on your x-axis).
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  geom_jitter(width = 0.2, 
+              height = 0, 
+              alpha = 0.5, 
+              color = "grey") +
+  stat_summary(fun = mean, 
+               geom = "crossbar", 
+               width = 1, 
+               color = "blue", 
+               size = 0.2)
 ```
 
 14. Create a ridgeline plot to compare the `flipper_length_mm` across the different `species` of penguins. Try out different settings and aesthetics to see how they change your graph (if you want to try an aesthetic **mapping**, only use the singular variable on your y-axis).
 
 ```{r}
+library(ggridges)
 
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = species)) +
+  geom_density_ridges(scale = 1.1, 
+                      alpha = 0.5,
+                      fill = "lightgreen",
+                      color = "pink") 
 ```
 
 15. Take your scatter plot exploring the relationship between a penguin's `bill_length_mm` and their `flipper_length_mm` and do the following:
@@ -135,33 +290,94 @@ Proportion:
 A. Facet by `species`.
   
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_point(size = 2,
+             alpha = 0.8,
+             color = "pink") +
+  facet_grid(cols = vars(species))
 ```
 
 B. Facet by `sex`.
   
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_point(size = 2,
+             alpha = 0.8,
+             color = "pink") +
+  facet_grid(rows = vars(sex))
 ```
 
 C. Facet by both `species` and `sex`.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = bill_length_mm)) +
+  geom_point(size = 2,
+             alpha = 0.8,
+             color = "pink") +
+  facet_grid((cols = vars(sex)),
+             (rows = vars(species)))
 ```
 
 16. Create a line plot to compare how `flipper_length_mm` varies across penguin `species`, and whether there are any differences between the sexes of each species (think about what the graph would look like to best visualize this). Try out different aesthetic **settings**, and see how they change the graph.
 
 ```{r}
-
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm, group = 1)) +
+  stat_summary(fun = "mean", 
+               geom = "line", 
+               linetype = "dotted",
+               size = 1,
+               color = "tomato") +
+ facet_grid(cols = vars(sex))
 ```
-
+```{r}
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm, group = 1)) +
+  stat_summary(fun = "mean", 
+               geom = "line", 
+               linetype = "dotted",
+               size = 1,
+               color = "tomato") +
+ facet_grid(rows = vars(sex))
+```
 17. Pick your favorite visualization you created that compares `flipper_length_mm` across the different `species` of penguins (from questions #8 and #9), and show how that comparison varies by `sex`. You can do this by adding a new aesthetic or faceting. Which do you think looks better and why?
 
 ```{r}
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "bar",
+               color = "pink",
+               fill = "lightpink",
+               alpha = 0.5) +
+  facet_grid(cols = vars(sex))
 
+#faceting. This looks better because it is easier to compare each variable in relation to the sex. It is also more visually appealing.
 ```
+```{r}
+penguins %>%
+  ggplot(aes(x = species,
+             y = flipper_length_mm)) +
+  stat_summary(fun = "mean", 
+               geom = "bar",
+               color = "pink",
+               fill = "lightpink",
+               alpha = 0.5) +
+  stat_summary(fun.data = "mean_se", 
+               geom = "linerange", 
+               width = .3)
 
+#added aesthetic
+```
 # Feedback 
 
 Please save the appropriate number to the variables below:
@@ -169,7 +385,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 200
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -179,7 +395,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 5
 ```
     
     
@@ -189,7 +405,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 6
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
