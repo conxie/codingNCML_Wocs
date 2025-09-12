@@ -320,6 +320,7 @@ plot_hex +
 plot_line +
   scale_color_distiller(palette = "RdPu")
 
+
 plot_jitter +
   scale_color_brewer(palette = "Dark2")
 

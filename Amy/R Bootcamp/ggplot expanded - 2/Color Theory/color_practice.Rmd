@@ -44,11 +44,33 @@ You will be working with the code you wrote in the *Geoms Practice Problems* ass
 Save your graphs below:
 
 ```{r}
-plot_bar =
+plot_bar = diamonds_sample %>%
+  ggplot(aes(x = color, 
+             y = depth,
+             fill = color)) +
+  stat_summary(fun = "mean", geom = "bar") +
+  stat_summary(aes(color = color), 
+               fun.data = "mean_se", 
+               geom = "errorbar", width = 0.5)
+plot_bar
   
-plot_jitter = 
+plot_jitter = diamonds_sample %>%
+  ggplot(aes(x = cut,
+             y = price)) +
+  geom_jitter(aes(color = cut), alpha = 0.7, width = 0.2) + 
+  geom_boxplot(aes(color = cut), alpha = .5) + 
+  stat_summary(fun = "mean", geom = "point", color = "black") + 
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = .6, color = "black")
+
+plot_jitter
   
-plot_raster = 
+plot_raster = diamonds_sample %>%
+  ggplot(aes(x = table,
+             y = carat,
+             z = price)) +
+  stat_summary_2d(fun = "mean", geom = "tile", color = "black")
+
+plot_raster
 ```
 
 
@@ -57,31 +79,36 @@ plot_raster =
   A. Choose 7 colors that you think are *equally distinct* and use them for the colors in `plot_bar`
   
 ```{r}
-
+plot_bar +
+  scale_fill_manual(values = c("cyan", "lightgreen", "yellow", "red","orange", "pink", "purple"))
 ```
   
   B. Choose 5 colors that you think are *in the same hue range* and use them for the colors in `plot_jitter`
   
 ```{r}
-
+plot_jitter +
+  scale_color_manual(values = c("pink", "pink1", "pink2", "pink3", "pink4"))
 ```
   
   C. Create a gradient for `plot_raster` using *one hue*
   
 ```{r}
-
+plot_raster +
+  scale_fill_gradient(low = "lightblue", high = "darkblue")
 ```
   
   D. Create a gradient for `plot_raster` using *two hues* that you feel are *perceptually distinct*
   
 ```{r}
-
+plot_raster +
+  scale_fill_gradient(low = "pink", high = "blue")
 ```
   
   E. Create a gradient for `plot_raster` using *at least 4 hues*
 
 ```{r}
-
+plot_raster +
+  scale_fill_gradientn(colors = c("turquoise", "lightgreen", "yellow", "pink"))
 ```
 
 2. Using scale_*_brewer/distiller...
@@ -91,13 +118,15 @@ plot_raster =
 least:
 
 ```{r}
-
+plot_bar +
+  scale_fill_brewer(palette = "Set2")
 ```
 
 most:
 
 ```{r}
-
+plot_bar +
+  scale_fill_brewer(palette = "Dark2")
 ```
 
 
@@ -106,13 +135,15 @@ most:
 least:
 
 ```{r}
-
+plot_jitter +
+  scale_color_brewer(palette = "RdPu")
 ```
 
 most:
 
 ```{r}
-
+plot_jitter +
+  scale_color_brewer(palette = "GnBu")
 ```
 
   C. Set the colors of `plot_raster` to your NEXT *least* and *most* favorite brewer palettes of the appropriate type
@@ -120,13 +151,15 @@ most:
 least:
 
 ```{r}
-
+plot_raster +
+      scale_fill_distiller(palette = "Greys")
 ```
 
 most:
 
 ```{r}
-
+plot_raster +
+      scale_fill_distiller(palette = "Purples")
 ```
 
 3. Using scale_*_manual/gradientn...
@@ -134,20 +167,23 @@ most:
   A. Set the colors of `plot_bar` to an appropriate brewer palette that you have yet to use
   
 ```{r}
-
+plot_bar +
+  scale_fill_manual(values = brewer.pal(n = 7, name = 'Pastel1'))
 ```
 
 
   B. Set the colors of `plot_jitter` to an appropriate brewer palette that you have yet to use
   
 ```{r}
-
+plot_jitter +
+  scale_color_manual(values = brewer.pal(n = 5, name = "Paired"))
 ```
 
   C. Set the colors of `plot_raster` to an appropriate brewer palette that you have yet to use
   
 ```{r}
-
+plot_raster +
+  scale_fill_gradientn(colors = brewer.pal(n = 5, name = "Spectral"))
 ```
 
 
@@ -158,13 +194,15 @@ most:
 bar:  
 
 ```{r}
-
+plot_bar + 
+  scale_fill_grey()
 ```
 
 jitter:
 
 ```{r}
-
+plot_jitter +
+  scale_color_grey()
 ```
 
 
@@ -173,13 +211,15 @@ jitter:
 bar:  
 
 ```{r}
-
+plot_bar + 
+  scale_fill_grey(start = 0.85, end = 1)
 ```
 
 jitter:
 
 ```{r}
-
+plot_jitter +
+  scale_color_grey(start = 0.7, end = 1)
 ```
 
   C. Color them with a grey scale that is *low* luminance
@@ -187,19 +227,22 @@ jitter:
 bar:  
 
 ```{r}
-
+plot_bar +
+  scale_fill_grey(start = 0, end = 0.2)
 ```
 
 jitter:
 
 ```{r}
-
+plot_jitter +
+  scale_color_grey(start = 0.1, end = 0.15)
 ```
 
 5. There is not a built in function to create a continuous grey scale. However, think about how you could create one of your own for `plot_raster`
 
 ```{r}
-
+plot_raster +
+    scale_fill_gradient(low = "white", high = "black")
 ```
 
 6. Use a different virids scales with scale_*_viridis to color the following graphs:
@@ -207,19 +250,22 @@ jitter:
   A. `plot_bar`
   
 ```{r}
-
+plot_bar +
+  scale_fill_viridis(discrete = TRUE, option = "magma")
 ```
 
   B. `plot_jitter`
   
 ```{r}
-
+plot_jitter +
+    scale_color_viridis(discrete = TRUE, option = "plasma")
 ```
 
   C. `plot_raster`
   
 ```{r}
-
+plot_raster +
+    scale_fill_viridis(option = "inferno")
 ```
   
 
@@ -230,7 +276,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 180
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -240,7 +286,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 4
 ```
     
     
@@ -250,7 +296,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 7
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
