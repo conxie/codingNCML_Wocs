@@ -1,7 +1,7 @@
 ---
-title: ""
-author: ""
-date: ""
+title: "Exercise_Customization"
+author: "Amy"
+date: "9/13/25"
 output: html_document
 ---
 
@@ -9,7 +9,7 @@ output: html_document
 library(tidyverse)
 library(patchwork)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Customizing ggplot Graphs/diamonds_sample.RData") 
 ```
 
 You are going to continue working with the `diamonds_sample` dataset.
@@ -32,79 +32,216 @@ You are going to continue working with the `diamonds_sample` dataset.
 > As a quick aside, when you use a base 10 log transformation, the value corresponds to the exponent you need to raise 10 to to get that number. For example, the log base 10 of 100 is 2, because 10^2 = 100. log10(1000) = 3, because 10^3 = 1000, etc. 
 
 ```{r}
+base_graph <- diamonds_sample %>%
+  ggplot(aes(x = cut, 
+             y = log10(price))) +
+  geom_jitter(alpha = 0.5, 
+              color = "orchid") +
+  stat_summary(fun = mean, geom = "point", size = 3, color = "lightblue") +
+  stat_summary(fun.data = mean_se, geom = "linerange", color = "black")
 
+base_graph
 ```
 
   A. Change the interval of the Y-axis so it has breaks by 0.25 ranging from 0 to 5.25
   
 ```{r}
-
+base_graph +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25))
 ```
   
   B. Change the limit of the Y-axis so it ranges from 0 to 5.25
   
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25))
 ```
 
   C. Remove the padding at the bottom
   
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     expand = c(0,0))
 ```
 
   D. Title the graph, "How Does Cut Quality Influence Diamond Price?". Also, add the subtitle, "Quality Assessed by Master Gemologist"
   
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     expand = c(0,0)) +
+  labs(title = "How Does Cut Quality Influence Diamond Price?",
+       subtitle = "Quality Assessed by Master Gemologist")
 ```
 
   E. Change the y- and x-axis labels to, "Log10 Price USD" and "Cut Quality", respectively
   
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     expand = c(0,0)) +
+  labs(title = "How Does Cut Quality Influence Diamond Price?",
+       subtitle = "Quality Assessed by Master Gemologist",
+       x = "Cut Quality",
+       y = "Log10 Price USD")
 ```
 
   F. Add the tag, "A", and caption "Note: Error bars represent +/- 1 SEM"
   
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     expand = c(0,0)) +
+  labs(title = "How Does Cut Quality Influence Diamond Price?",
+       subtitle = "Quality Assessed by Master Gemologist",
+       x = "Cut Quality",
+       y = "Log10 Price USD",
+       tag = "A",
+       caption = "Note: Error bars represent +/- SEM")
 ```
   
   G. Change the visualizations theme to `theme_bw()`, then create a new variable called `modified_graph` that takes your `base_graph` and saves all modifications you've added thus far. Then, call `modified_graph`.
   
 ```{r}
+modified_graph <- base_graph +
+  coord_cartesian(ylim = c(0, 5.25)) +
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     labels = seq(from = 0, 
+                                  to = 5.25, 
+                                  by = 0.25),
+                     expand = c(0,0)) +
+  labs(title = "How Does Cut Quality Influence Diamond Price?",
+       subtitle = "Quality Assessed by Master Gemologist",
+       x = "Cut Quality",
+       y = "Log10 Price USD",
+       tag = "A",
+       caption = "Note: Error bars represent +/- SEM") +
+  theme_bw()
 
+modified_graph
 ```
 
   H. Change the size of the title to 20 and subtitle to 12. Make the subtitle color "dimgray", the tag bold, and the caption italicized. 
 
 ```{r}
-
+modified_graph +
+  theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 12, 
+                                     color = "dimgray"),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic"))
 ```
 
   I. Make the title right-aligned, the subtitled centered, and the caption left-aligned.
   
 ```{r}
-
+modified_graph +
+  theme(plot.title = element_text(size = 20,
+                                  hjust = 1),
+        plot.subtitle = element_text(size = 12, 
+                                     color = "dimgray",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic",
+                                    hjust = 0))
 ```
 
   J. Make the axis titles size 16 and bold, give them 0.3 inches in the margins bordering the axis values. Then, make the axis values size 12, blue, and bold. Finally, make the axis ticks black.
   
 ```{r}
-
+modified_graph +
+  theme(plot.title = element_text(size = 20,
+                                  hjust = 1),
+        plot.subtitle = element_text(size = 12, 
+                                     color = "dimgray",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic",
+                                    hjust = 0),
+        axis.title.x = element_text(size = 16,
+                                    face = "bold",
+                                    margin = margin(t = 0.3,
+                                                  unit = "inch")),
+        axis.title.y = element_text(size = 16,
+                                    face = "bold",
+                                    margin = margin(r = 0.3,
+                                                  unit = "inch")),
+        axis.text = element_text(face = "bold",
+                                 color = "blue",
+                                 size = 12),
+        axis.ticks = element_line(color = "black"))
 ```
 
 2. Use the code you've generated throughout the previous few examples to create a new default theme setting.
 
 ```{r}
-
+theme_set(theme_minimal() + 
+  theme(plot.title = element_text(size = 20,
+                                  hjust = 1),
+        plot.subtitle = element_text(size = 12, 
+                                     color = "dimgray",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic",
+                                    hjust = 0),
+        axis.title.x = element_text(size = 16,
+                                    face = "bold",
+                                    margin = margin(t = 0.3,
+                                                  unit = "inch")),
+        axis.title.y = element_text(size = 16,
+                                    face = "bold",
+                                    margin = margin(r = 0.3,
+                                                  unit = "inch")),
+        axis.text = element_text(face = "bold",
+                                 color = "blue",
+                                 size = 12),
+        axis.ticks = element_line(color = "black")))
 ```
 
 3. Use patchwork to combine your `base_graph` and `modified_graph` to compare the two. Try arranging them in different layouts using different operators.
 
 ```{r}
+base_graph + modified_graph
 
+base_graph / modified_graph
 ```
 
 # Feedback 
@@ -114,7 +251,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 90
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -124,7 +261,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 3
 ```
     
     
@@ -134,7 +271,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 7
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
