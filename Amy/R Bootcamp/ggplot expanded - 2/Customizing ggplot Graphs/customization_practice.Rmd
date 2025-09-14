@@ -1,7 +1,7 @@
 ---
 title: "Customization Practice Problem Set"
-author: ""
-date: ""
+author: "Amy"
+date: "9/13/25"
 output: html_document
 ---
 
@@ -9,7 +9,7 @@ output: html_document
 library(tidyverse)
 library(patchwork)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Customizing ggplot Graphs/diamonds_sample.RData") 
 ```
 
 You are going to continue working with the `diamonds_sample` dataset.
@@ -31,61 +31,205 @@ You are going to continue working with the `diamonds_sample` dataset.
 1. Use the `diamonds_sample` dataframe and create your own `base_graph`. Make sure to have a continuous variable on the y-axis and a categorical variable on the x-axis.
 
 ```{r}
+base_graph <- diamonds_sample %>%
+  ggplot(aes(y = price,
+             x = cut)) +
+  geom_boxplot(fill = "skyblue", 
+               color = "black", 
+               alpha = 0.5)
 
+base_graph
 ```
 
 2. Take your code from #1 and add on code that will modify your `base_graph` so the scale is more appropriate and represents the full range.
 
 ```{r}
+base_graph +
+  coord_cartesian(ylim = c(0,20000)) + 
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     labels = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000))
 
 ```
 
 3. Take your code from #2 and add on code that will modify your `base_graph` so the padding is gone.
 
 ```{r}
+base_graph +
+  coord_cartesian(ylim = c(0,20000)) + 
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     labels = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     expand = c(0,0))
 
 ```
 
 4. Take your code from #3 and add on code that will modify your `base_graph` so that it has more appropriate titles for the y- and x-axis. Additionally, add an appropriate title, subtitle (if needed), figure tag, and caption.
 
 ```{r}
-
+base_graph +
+  coord_cartesian(ylim = c(0,20000)) + 
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     labels = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     expand = c(0,0)) +
+  labs(title = "Distribution of Diamond Prices by Cut Quality",
+       subtitle = "Box plot showing price variation across different cut grades.",
+       x = "Cut Quality",
+       y = "Price(USD)",
+       tag = "A",
+       caption = "Diamonds Dataset")
 ```
 
 5. Create a new variable called `modified_graph` that takes your `base_graph` and saves all modifications you've added in questions 2:4. Then, try applying some different themes to your `modified_graph`.
 
 ```{r}
+modified_graph <- base_graph +
+  coord_cartesian(ylim = c(0,20000)) + 
+  scale_y_continuous(breaks = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     labels = seq(from = 0, 
+                                  to = 20000, 
+                                  by = 5000),
+                     expand = c(0,0)) +
+  labs(title = "Distribution of Diamond Prices by Cut Quality",
+       subtitle = "Box plot showing price variation across different cut grades.",
+       x = "Cut Quality",
+       y = "Price(USD)",
+       tag = "A",
+       caption = "Diamonds Dataset")
 
+modified_graph +
+  theme_minimal()
+
+modified_graph +
+  theme_bw()
+
+modified_graph +
+  theme_classic()
+  
 ```
 
 6. Add some code to `modified_graph` to modify your visualization's titles and increase their legibility.
 
 ```{r}
-
+modified_graph + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 15,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"))
 ```
 
 7. Take your code from #6 and add on code that will modify your visualization's caption and increase its legibility.
 
 ```{r}
-
+modified_graph + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 15,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(hjust = 1, 
+                                    face = "italic"))
 ```
 
 8. Take your code from #7 and add on code that will modify your visualization's axes titles and increase their legibility.
 
 ```{r}
-
+modified_graph + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 15,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(hjust = 1, 
+                                    face = "italic"),
+        axis.title.x = element_text(size = 10,
+                                  face = "bold"),
+        axis.title.y = element_text(size = 10,
+                                    face = "bold"))
 ```
 
 9. Take your code from #8 and add on code that will modify your visualization's axes values and increase their legibility.
 
 ```{r}
-
+modified_graph + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 15,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(hjust = 1, 
+                                    face = "italic"),
+        axis.title.x = element_text(size = 10,
+                                  face = "bold",
+                                  margin = margin(t = 0.1, 
+                                                    r = 0, 
+                                                    b = 0, 
+                                                    l = 0, 
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10,
+                                    face = "bold",
+                                    margin = margin(t = 0, 
+                                                    r = 0.1, 
+                                                    b = 0, 
+                                                    l = 0, 
+                                                    unit = "inch")))
 ```
 
 10. Create a new variable called `a` that takes your `modified_graph` and saves all the new modifications you've added in questions 6:9.
 
 ```{r}
+a <- modified_graph + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 15,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(hjust = 1, 
+                                    face = "italic"),
+        axis.title.x = element_text(size = 10,
+                                  face = "bold",
+                                  margin = margin(t = 0.1, 
+                                                    r = 0, 
+                                                    b = 0, 
+                                                    l = 0, 
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10,
+                                    face = "bold",
+                                    margin = margin(t = 0, 
+                                                    r = 0.1, 
+                                                    b = 0, 
+                                                    l = 0, 
+                                                    unit = "inch")))
 
+a
 ```
 
 
@@ -96,25 +240,168 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
   B. 
   
 ```{r}
-
+b <- diamonds_sample %>%
+  ggplot(aes(x = log10(price))) +
+  geom_histogram(color = "black") +
+  coord_cartesian(ylim = c(0,105)) +
+  scale_y_continuous(breaks = seq(from = 0,
+                                  to = 100,
+                                  by = 10),
+                     expand = c(0,0)) +
+  labs(title = "Distribution of Diamond Prices",
+       subtitle = "Prices are log10-transformed.",
+       x = "Log10 Price(USD)",
+       y = "Count",
+       tag = "B",
+       caption = "Bimodal distribution") +
+  theme(plot.title = element_text(size = 17,
+                                  hjust = 0.5,
+                                  face = "bold"),
+        plot.subtitle = element_text(color = "darkgrey",
+                                     size = 11.5,
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic",
+                                    hjust = 1),
+        axis.title.x = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(r = 0.1, 
+                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+         axis.ticks = element_line(color = "black"))
+  
+b
 ```
 
   C.
   
 ```{r}
+c <- diamonds_sample %>%
+  ggplot(aes(x = clarity, y = depth)) +
+  geom_boxplot(color = "salmon", fill = "grey") +
+  coord_cartesian(ylim = c(50, 80)) +
+  scale_y_continuous(breaks = seq(from = 50,
+                                  to = 80,
+                                  by = 2),
+                     labels = seq(from = 50, to = 80, by = 2),
+                     expand = c(0,0)) +
+  labs(title = "Diamond Clarity vs. Depth",
+       subtitle = "Examining the relationship between diamond depth and clarity.",
+       x = "Clarity",
+       y = "Depth",
+       tag = "C",
+       caption = "Boxplot") +
+  theme(plot.title = element_text(size = 17,
+                                  hjust = 0.5,
+                                  face = "bold"),
+        plot.subtitle = element_text(color = "darkgrey",
+                                     size = 11.5,
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        plot.caption = element_text(face = "italic",
+                                    hjust = 1),
+        axis.title.x = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(r = 0.1, 
+                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+         axis.ticks = element_line(color = "black",
+                                   size = 0.5))
 
+c
 ```
 
   D.
 
 ```{r}
-
+d <- diamonds_sample %>%
+  ggplot(aes(y = clarity,
+             x = cut,
+             z = log10(price))) + 
+   stat_summary_2d(fun = "mean", 
+                   geom = "tile", 
+                   color = "black") +
+  labs(title = "Diamond Cut vs. Clarity",
+       subtitle = "Comparison across all combinations",
+       x = "Cut",
+       y = "Clarity",
+       tag = "D",
+       fill = "Log10 Price(USD)") +
+  theme(plot.title = element_text(size = 17,
+                                  hjust = 0.5,
+                                  face = "bold"),
+        plot.subtitle = element_text(color = "darkgrey",
+                                     size = 11.5,
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(r = 0.1, 
+                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+        axis.ticks = element_line(color = "black")) +
+  theme(legend.box.background = element_rect(color = "black",
+                                            size = 1),
+        legend.title = element_text(face = "bold"),
+        legend.text = element_text(face = "bold"),
+        legend.title.align = 0.5)
+d
 ```
 
   E.
 
 ```{r}
+e <- diamonds_sample %>%
+  ggplot(aes(x = table,
+             y = carat,
+             z = log10(price))) +
+  stat_summary_2d(fun = "mean", geom = "tile", color = "black") +
+  labs(title = "Table vs. Carat",
+       subtitle = "Comparison across all combinations",
+       x = "Width of Diamond",
+       y = "Carat",
+       tag = "E",
+       fill = "Log10 Price(USD)") +
+  theme(plot.title = element_text(size = 17,
+                                  hjust = 0.5,
+                                  face = "bold"),
+        plot.subtitle = element_text(color = "darkgrey",
+                                     size = 11.5,
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 10.5,
+                                    face = "bold",
+                                    margin = margin(r = 0.1, 
+                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+        axis.ticks = element_line(color = "black")) +
+  theme(legend.box.background = element_rect(color = "black",
+                                            size = 1),
+        legend.title = element_text(face = "bold"),
+        legend.text = element_text(face = "bold"),
+        legend.title.align = 0.5)
 
+e
 ```
 
 
@@ -130,7 +417,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|
 
 ```{r}
-
+d / c
 ```
 
   B. 
@@ -141,7 +428,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 
 
 ```{r}
-
+b + e
 ```
 
 
@@ -154,7 +441,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|----|
 
 ```{r}
-
+(a / c) | (b / d)
 ```
 
   D. 
@@ -166,7 +453,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|----|
 
 ```{r}
-
+e / (c + d)
 ```
 
   E.
@@ -178,7 +465,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|----|
 
 ```{r}
-
+(a / b) | c
 ```
 
   F. 
@@ -190,7 +477,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|----|
 
 ```{r}
-
+(e + a) / b
 ```
 
   G.
@@ -202,7 +489,7 @@ Then, repeat steps similar to those for 1:9 above to customize these visualizati
 |----|----|
 
 ```{r}
-
+d | (e / b)
 ```
 
 
@@ -213,7 +500,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = 210
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -223,7 +510,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 6
 ```
     
     
@@ -233,7 +520,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 5
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
