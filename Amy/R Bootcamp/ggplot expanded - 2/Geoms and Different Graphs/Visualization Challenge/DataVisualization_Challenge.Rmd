@@ -1,7 +1,7 @@
 ---
-title: ""
-author: ""
-date: ""
+title: "DataVisualization_Challenge.Rmd"
+author: "Amy"
+date: "9/15/25"
 output: html_document
 ---
 
@@ -12,8 +12,8 @@ library(colorspace)
 library(viridis)
 library(tidyverse)
 # Modify the file path in the code below to properly load the files
-load("pokemon.RData")
-load("pokemon_starters.RData")
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Geoms and Different Graphs/Visualization Challenge/data/pokemon.RData")
+load("C:/Users/amyng/OneDrive/Documents/GitHub/codingNCML_Wocs/Amy/R Bootcamp/ggplot expanded - 2/Geoms and Different Graphs/Visualization Challenge/data/pokemon_starters.RData")
 ```
 
 # Instructions
@@ -61,15 +61,53 @@ Make sure that in your visualizations below the pokemon primary Types have intui
 ### 1. To help make your decision, maybe it makes sense to first investigate how the Total stats varies across the different starter primary types.
 
 *Prediction:*
-  Prediction here
+  I predict that if the different starter pokemon types have variable total stats across all of them, the box plots would each look different. More specifically, they would have higher/lower median lines and the interquartile range would also vary.
 
-
+m
 ```{r}
+a <- pokemon_starters %>%
+  ggplot(aes(x = Type1, 
+             y = Total)) +
+  geom_boxplot(aes(color = Type1,
+                   fill = Type1),
+               alpha = 0.4)
 
+a + 
+  scale_y_continuous(breaks = seq(from = 300,
+                                  to = 600,
+                                  by = 20),
+                     labels = seq(from = 300,
+                                  to = 600,
+                                  by = 20),
+                     expand = c(0,0)) +
+  labs(title = "Total Stats by Starter Pokemon Primary Type",
+       subtitle = "Comparing Fire, Water, and Grass-type starters based on overall stat totals.",
+       x = "Primary Type",
+       y = "Total Stats",
+       tag = "A") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+        axis.ticks = element_line(color = "black"))
 ```
 
 *Summary:*
-  Summary here
+  Based on the box plots, it seems that the totle stats of each primary type are very similar. Their median lines as well as range are almost identical. However, Fire and Water type do have slightly higher total stats than Grass. On the other hand, grass does start higher than the other two.
 
 
 If you feel like this answers your question, explain what your recommendation is and how you came to that conclusion based on your investigation. If not, go on:
@@ -80,17 +118,144 @@ If you feel like this answers your question, explain what your recommendation is
   - Write summary statements for each of them
   
 ```{r}
+b <- pokemon_starters %>%
+  ggplot(aes(x = Type1,
+             y = Defense)) +
+  geom_boxplot(aes(color = Type1,
+                   fill = Type1),
+               alpha = 0.4)
 
+b +
+  scale_y_continuous(breaks = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     labels = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     expand = c(0,0)) +
+  labs(title = "Defense Stats by Starter Pokemon Primary Type",
+       subtitle = "Comparing Fire, Water, Grass-type starters based on base Defense.",
+       x = "Primary Type",
+       y = "Defense Stats",
+       tag = "B") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0,1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 10),
+        axis.ticks = element_line(color = "black"))
 ```
-  
-  
-  
-  
+ *Summary:*
+ Based on the box plots, grass type pokemons have higher defense stats than the water and fire types. The fire type range around 45 to 70, while the water type range from 60-85. The grass type has a similar median and range to the water type, but still has the highest defense score.If defense is a priority, water is the ideal type.
+ 
+```{r}
+c <- pokemon_starters %>%
+  ggplot(aes(x = Type1,
+             y = Speed,
+             color = Type1)) +
+  geom_jitter(width = 0.2,
+              alpha = 0.4,
+              size = 2.5) +
+  scale_color_manual(values = c("Fire" = "red",
+                                "Water" = "dodgerblue",
+                                "Grass" = "forestgreen")) +
+  scale_y_continuous(breaks = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     labels = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     expand = c(0,0)) +
+  labs(title = "Speed Stats by Starter Pokemon Primary Type",
+       subtitle = "Each point represents a starter Pokemon's base speed",
+       x = "Primary Type",
+       y = "Speed",
+       tag = "C") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12, face = "bold", margin = margin(r = 0.1, unit = "inch")),
+        axis.ticks = element_line(color = "black"),
+        legend.title = element_text(hjust = 0.5),
+        legend.text = element_text(hjust = 0.5))
+
+c
+```
+ *Summary:*
+In summary, Grass starters show the widest distribution of Speed stats, ranging from very slow to moderately fast. Water also displays a fairly wide spread, though slightly more concentrated around the middle range. Fire  starters, on the other hand, tend to cluster toward the higher end of the Speed spectrum, with fewer low-speed outliers. This suggests that if Speed is a key priority, Fire may be the most consistent choice, while Grass offers the most variability. 
+
+```{r}
+d <- pokemon_starters %>%
+  ggplot(aes(x = Type1,
+             y = Attack,
+             fill = Type1)) +
+  geom_violin(trim = FALSE, alpha = 0.3) +
+  geom_boxplot(width = 0.2, fill = "white") +
+  scale_fill_manual(values = c("Fire" = "red", "Water" = "dodgerblue", "Grass" = "forestgreen")) +
+  scale_y_continuous(breaks = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     labels = seq(from = 30,
+                                  to = 130,
+                                  by = 10),
+                     expand = c(0,0)) +
+  labs(title = "Attack Stats by Starter Pokemon Primary Type",
+       subtitle = "Distribution of Attack Stats with embedded boxplot.",
+       x = "Primary Type",
+       y = "Attack Stats",
+       tag = "D") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                             face = "bold",
+                             hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                                    unit = "inch")),
+        axis.text = element_text(color = "black", size = 10),
+        axis.ticks = element_line(color = "black"),
+        legend.title = element_text(hjust = 0.5),
+        legend.text = element_text(hjust = 0.5))
+
+d
+```
+*Summary:*
+The Fire types display a longer and slightly narrower distribution of Attack stats compared to Grass and Water types. The boxplots embedded within the violins show that both Fire and Water types have higher median Attack values than Grass types. This suggests that, overall, Fire and Water starters tend to be more reliable in attacking, while Grass starters are more varied and slightly lower on average
+
 When you feel like you can make an informed recommendation, write that below and explain your rationale behind that decision.
 
 *Answer:*
-  Answer here
-
+  Based on the data obtained, each type has its strengths. For defense, water-type seems to be the best choice, as they have the highest median values and most compact distribution, meaning they are more consistent. In terms of attack, both fire and water perform well, but fire types have a slightly longer and more reliable distribution. Finally, for speed, fire types stand out with higher medians and less variability, which are ideal for those who want a faster team. Overall, fire types are good for attack and speed, while water types are good for defense. Grass types are more varied and inconsistent across the stats I looked at.
 
 
 ### 3. Not to throw a wrench in your plan or anything... but after hearing your recommendation, imagine someone goes, "Is that true for ALL generations? Do you even know what game I'm playing and asking help for?!" 
@@ -100,17 +265,157 @@ Shoot, they may be right....
 Explore whether your recommendation, based on whatever rationale you used, holds true across generations. You may use more than one visualization while investigating (separately OR creating graphs for different subsets in the same visualization). If so, write summaries for each below (identifying which visualization the summary corresponds to). When you have come to a conclusion about whether or not it does, write that and explain your rationale.
 
 ```{r}
+pokemon_starters %>%
+  ggplot(aes(x = Generation,
+             y = Total,
+             fill = Type1)) +
+  geom_boxplot(alpha = 0.4,
+               position = position_dodge(width = 0.75)) +
+  scale_fill_manual(values = c("Fire" = "red",
+                               "Water" = "dodgerblue",
+                               "Grass" = "forestgreen")) +
+  scale_y_continuous(breaks = seq(from = 300,
+                                  to = 600,
+                                  by = 20),
+                     labels = seq(from = 300,
+                                  to = 600,
+                                  by = 20),
+                     expand = c(0,0)) +
+  labs(title = "Total Stats by Generation and Starter Type",
+       subtitle = "Comparing overall stat totals of Fire, Water, Grass across generations.",
+       x = "Pokemon Generation",
+       y = "Total",
+       tag = "A2") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1, 
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                           unit = "inch")),
+        axis.text = element_text(color = "black",  size = 10),
+        axis.ticks = element_line(color = "black"))
+```
+*Summary_A2:*
+  Based on the box plots, the total stats across generations is very similar and consistent The largest distinction is in generation 5, in which fire type pokemon has a higher median than the others. In general, the total stats across generations do not differ much from one another; the gap between types is stable.
+
+```{r}
+pokemon_starters %>%
+  ggplot(aes(x = Generation,
+            y = Defense,
+            fill = Type1)) +
+  geom_boxplot(alpha = 0.4,
+               position = position_dodge(width = 0.75)) +
+  scale_fill_manual(values = c("Fire" = "red",
+                               "Water" = "dodgerblue",
+                               "Grass" = "forestgreen")) +
+  facet_grid(cols = vars(Type1)) +
+  scale_y_continuous(breaks = seq(40, 120, 10),
+                     labels = seq(40, 120, 10),
+                     expand = c(0,0)) +
+  labs(title = "Defense Stats by Generation and Starter Type",
+       subtitle = "Comparing defense stats of Fire, Water, and Grass across generations",
+       x = "Pokemon Generation",
+       y = "Defense",
+       tag = "B2") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                 face = "bold",
+                                 hjust = 0.5),
+        plot.subtitle = element_text(size = 10,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12, face = "bold", margin = margin(t = 0.1, unit = "inch")),
+        axis.title.y = element_text(size = 12, face = "bold", margin = margin(r = 0.1, unit = "inch")),
+        axis.text = element_text (color = "black", size = 10),
+        axis.ticks = element_line(color = "black"))
+```
+*Summary_B2:*
+Overall, grass and water types have the highest defense scores when comparing across generations. Water seems to have the highest scores, while Fire has the lowest. Generation 3 of grass stands out because they have the lowest defense scores for all. Water types seems to be the most consistent across generations.
+
+```{r}
+pokemon_starters %>%
+  ggplot(aes(x = Generation,
+             y = Speed,
+             color = Type1)) +
+  geom_jitter(width = 0.2,
+              size = 2.5,
+              alpha = 0.5) +
+  scale_color_manual(values = c("Fire" = "red",
+                                "Water" = "dodgerblue",
+                                "Grass" = "forestgreen")) +
+  facet_grid(cols = vars(Type1)) +
+  scale_y_continuous(breaks = seq(30, 130, 10),
+                     labels = seq(30, 130, 10),
+                     expand = c(0,0)) +
+  labs(title = "Speed Stats by Generation and Starter Type",
+       subtitle = "Each point represents a Pokemon's Speed Stat",
+       x = "Pokemon Generation",
+       y = "Speed",
+       tag = "C2") +
+  theme_minimal() +
+  theme (plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "grey50", hjust = 0.5),
+    plot.tag = element_text(face = "bold"),
+    axis.title.x = element_text(size = 12, face = "bold", margin = margin(t = 0.1, unit = "inch")),
+    axis.title.y = element_text(size = 12, face = "bold", margin = margin(r = 0.1, unit = "inch")),
+    axis.text = element_text(color = "black", size = 10),
+    axis.ticks = element_line(color = "black"),
+    legend.title = element_text(hjust = 0.5),
+    legend.text = element_text(hjust = 0.5))
 
 ```
+*Summary_C2:*
+Based on the faceted jitter plot, Water types consistently have the lowest Speed stats across most generations. In contrast, Fire types tend to have higher and more consistent Speed overall, while Grass types show more variability. This suggests that if Speed is an important factor, Fire types are generally the most reliable choice.
 
-*Summary:*
-  Summary here
-
+```{r}
+pokemon_starters %>%
+  ggplot(aes(x = Generation,
+             y = Attack,
+             fill = Type1)) +
+  geom_boxplot(alpha = 0.6, width = 0.6) +
+  facet_grid(cols = vars(Type1)) +
+  scale_fill_manual(values = c("Fire" = "red",
+                               "Water" = "dodgerblue",
+                               "Grass" = "forestgreen")) +
+  scale_y_continuous(breaks = seq(from = 30, 
+                                  to = 130, 
+                                  by = 10),
+                     labels = seq(from = 30, 
+                                  to = 130, 
+                                  by = 10),
+                     expand = c(0, 0)) +
+  labs(title = "Attack Stats by Generation and Starter Types",
+       subtitle = "Boxplots showing Attack distributions per Type across Generations",
+       x = "Pokemon Generation",
+       y = "Attack",
+       tag = "D2") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "grey50", hjust = 0.5),
+    plot.tag = element_text(face = "bold"),
+    axis.title.x = element_text(size = 12, face = "bold", margin = margin(t = 0.1, unit = "inch")),
+    axis.title.y = element_text(size = 12, face = "bold", margin = margin(r = 0.1, unit = "inch")),
+    axis.text = element_text(color = "black", size = 10),
+    axis.ticks = element_line(color = "black"))
+```
+*Summary_D2:*
+Based on the faceted boxplots of attack stats by generation, fire types show the highest overall attack trends, especially in generations 3,4,5, where their median values are clearly higher. Water types generally maintain moderate and consistent attack stats across all generations. Grass types have a wider distribution with more lower values compared to the other two. This suggests fire types are reliable for attacks.
 
 *Answer:*
-  Answer here
-
-
+  While generation has some influence, overall trends are clear. If you are aiming for strong offense, fire types are the best, especially in gen 3-5 where they are the best for attack and speed. In general, total stats are consistent across types and generations with only small differences. Grass types show most variation and have lower attack. In summary, for offense, choose fire, and for balance, water.
+  
 # Part 2:
 
 Woohoo! You just successfully got your first satisfied customer as a pokemon researcher! Before you can kick back and soak in your accomplishment, you notice a stack of papers on your desk full of requests of other questions for you to answer... One of the down sides of working in data science and industry is that you will very often have to answer the questions that other people want you to. Sometimes they may be good, interesting, and well reasoned. Other times, however... 
@@ -122,68 +427,128 @@ Below will hopefully be a mix. Going forward, use the `pokemon` df, *NOT* the `p
 
   A. What are some reasons why this might be true?
     
-    *replace this with your answer*
+    *This might be true because if the pokemon has high defense, it makes sense it would also be very agile and have high speed to be able to avoid the attacks.*
   
   B. What are some reasons this might not be true?
     
-    *replace this with your answer*
+    *This might not be true perhaps because they are just be unrelated. In addition, they may be specialized to have high defense, but then have weaker speed or vice versa.*
 
   C. What is your prediction?
     
-    *replace this with your answer*
+    *If defense increases with speed, there would be a positive linear relationship. If there is little or no strong relationship, there should be a straight line.*
     
   D. Investigate
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Speed,
+         y = Defense)) +
+  geom_point(alpha = 0.5, 
+             color = "steelblue",
+             size = 2.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "dashed") +
+  labs(title = "Defense vs Speed",
+       subtitle = "Exploring the overall relationship between Defense and Speed",
+       x = "Defense",
+       y = "Speed",
+       tag = "E") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        axis.title = element_text(face = "bold"),
+        axis.tag = element_text(face = "bold"))
 ```
   
   E. Summarize
     
-    *replace this with your answer*
+    *In summary, the line of best fit is a neutral linear line that does not have a positive or negative slope. Thus, we can conclude that defense and speed do not affect each other and are not related.*
     
   F. Now, use an alternative type of visualization to investigate the same question
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Defense,
+             y = Speed)) +
+  geom_hex(bins = 20) + 
+  scale_fill_viridis_c() +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "dashed", size = 1) +
+  labs(title = "Hexbin Plot of Defense vs Speed",
+       subtitle = "Color shows density; dashed line shows linear trend",
+       x = "Defense",
+       y = "Speed",
+       tag = "E2") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                  face = "bold",
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 10, 
+                                     color = "grey50",
+                                     hjust = 0.5),
+        axis.title = element_text(face = "bold"),
+        axis.tag = element_text(face = "bold"))
 ```
 
   G. Is the pattern/relationship the same as above? If not, in what way is it different?
     
-    *replace this with your answer*
+    *Yes, the pattern and relationship is the same as above. The line of best fit is linear with no strong positive or negative slope, although it is slightly downward. This graph differs because it highlights the density as well.*
     
   H. Overall conclusion and rationale
     
-    *replace this with your answer*
+    *Overall, both the scatter plot and hexbin show a nearly neutral linear trend between defense and speed. The line is very flat, indicating no correlation between the two variables. Thus, there is no meaningful relationship between defense and speed, likely because they are related to other things.*
     
 
 ### 2. "I have a hypothesis that a pokemon's Special Attack and Speed are related. Could you look into that for me?"
 
   A. What are some reasons why this might be true?
     
-    *replace this with your answer*
+    *This might be true because special attackers might have to rely on being fast to be able to strike first.*
   
   B. What are some reasons this might not be true?
     
-    *replace this with your answer*
+    *This might not be true because some special attackers could just be slower, so a strong attack is not always related to speed.*
 
   C. What is your prediction?
     
-    *replace this with your answer*
+    *If special attack and speed are related, there will be a positive or negative linear trend. If they are not related, then there should be no patterns or trends in the data - it would be a neutral line.*
     
   D. Investigate
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Speed,
+             y = SpAtk)) +
+  geom_point(alpha = 0.6,
+             size = 3,
+             color = "orchid") +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "dashed") +
+  scale_x_continuous(breaks = seq(0, 180, 10),
+                     expand = c(0,0)) +
+  scale_y_continuous(breaks = seq(0, 180, 10),
+                    expand = c(0,0)) +
+  labs(title = "Speed vs Special Attack",
+       subtitle = "How speed and special attack interact",
+       x = "Speed",
+       y = "Special Attack",
+       tag = "F") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "grey50", hjust = 0.5),
+    axis.title = element_text(face = "bold"),
+    axis.tag = element_text(face = "bold"))
 ```
   
   E. Summarize
     
-    *replace this with your answer*
+    *In summary, special attack and speed have a positive linear relationship. As the speed increases, so does special attack. However, there are outliers.*
     
   F. Conclusion and rationale
     
-    *replace this with your answer*
+    *In conclusion, special attack and speed do impact one another. Pokemon with higher special attack also tend to have higher speed. This supports the idea that fast pokemon are designed to hit hard with special attack moves.*
 
 
 ### 3. "Hey thanks for the recommendation for which starter to choose. Mine is already really strong! I'm curious about what other types of pokemon I should target for my team. I want my team to have the highest *Attack* possible. No one will stand a chance!"
@@ -191,70 +556,166 @@ Below will hopefully be a mix. Going forward, use the `pokemon` df, *NOT* the `p
   A. Could you look into how strong in *Attack* the different primary *Type* are on average (with a **point**), including how variable those scores might be (with a **range**)?
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Type1,
+             y = Attack)) +
+  geom_point(aes(color = Type1,
+                 fill = Type1)) +
+  stat_summary(fun.data = "mean_se",
+               geom = "pointrange",
+               color = "black") +
+  theme(legend.position = "none") +
+  scale_y_continuous(breaks = seq(0, 180, 10),
+                     labels = seq(0, 180, 10),
+                     expand = c(0,0)) +
+  labs(title = "Attack Stats Across Starter Primary Types",
+       subtitle = "How do attacks vary across different starter types of Pokemon?",
+       x = "Primary Type",
+       y = "Attack",
+       tag = "G") +
+  theme(plot.title = element_text(size = 16,
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11,
+                                     hjust = 0.5,
+                                     color = "grey50"),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 9),
+        axis.ticks = element_line(color = "black"))
 ```
 
   Summary:
     
-    *replace this with your answer*
+    *In summary, each primary type has a wide range of attack stats. The highest average is Dragon, while the lowest is Psychic.*
 
   Conclusion and rationale:
     
-    *replace this with your answer*
+    *In conclusion, if you want a strong attacker, dragons are the most reliable on average. However, since all types include a broad range of values, individual Pokemon selection is more important than just one type.  *
 
 > "Holy cow.... uh, wow okay that's interesting. Oh, maybe there just aren't that many of some pokemon types. Do you think that could explain this?"
 
   B. Now I'm curious about the distribution of pokemon types. How many of each different pokemon type there are? What primary type is there most and least of? Does this change across generations?
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Generation)) +
+  geom_bar(aes(fill = Generation),
+           color = "black") +
+  scale_fill_brewer(palette = "Set2") +
+  facet_grid(cols = vars(Type1)) +
+  scale_y_continuous(breaks = seq(0, 30, 5),
+                     labels = seq(0, 30, 5),
+                     expand = c(0,0)) +
+  labs(title = "Distribution of Primary Pokemon Types Across Generations",
+       subtitle = "Grouped by Primary type and colored by Generation",
+       x = "Generation",
+       y = "Number of Pokemon",
+       tag = "H") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 17,
+                                  hjust = 0.5),
+        plot.subtitle = element_text(size = 11,
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"),
+        axis.title.x = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(t = 0.1,
+                                                    unit = "inch")),
+        axis.title.y = element_text(size = 12,
+                                    face = "bold",
+                                    margin = margin(r = 0.1,
+                                                    unit = "inch")),
+        axis.text = element_text(color = "black",
+                                 size = 9),
+        axis.ticks = element_line(color = "black"))
 ```
 
   Summary:
     
-    *replace this with your answer*
+    *In summary, water types are the most prevalent, while flying types are the rarest. The popularity of types also changes across generations. For instance, early generations tend to have more water types, while later feature more fairy types.*
 
   Conclusion and rationale:
     
-    *replace this with your answer*
+    *In conclusion, the number of pokemon for each primary type varies between generations, which also can explain the differences in stats like attack, defense, etc, across generations. Overall, normal types tend to be most common and flying types the least.*
 
 ### 4. "I have this dumb idea that pokemon might get taller across generations. I know, just humor me." 
 
   A. What are some reasons why this might be true?
     
-    *replace this with your answer*
+    *This might be true because there is a lot of variablity with the number of types as well as the stats (like attack), so it could be plausible for there to be a pattern with height to explain the changes in other things.*
   
   B. What are some reasons this might not be true?
     
-    *replace this with your answer*
+    *This might not be true because each pokemon generation is different and it could just be different across the generations aka be random.*
 
   C. What is your prediction?
     
-    *replace this with your answer*
+    *I predict that if pokemon height does not increase with generation, then all the medians should be different and there would be wide ranges of heights with each generation. If pokemon height does increase, we would see a clear trend of increasing height as the generations go on.*
     
   D. Investigate
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Generation,
+         y = height_m)) +
+  geom_boxplot(aes(fill = Generation),
+               color = "black") +
+  scale_y_continuous(breaks = seq(from = 0, to = 15, by = 2), 
+                     labels = seq(from = 0, to = 15, by = 2), 
+                     expand = c(0,0)) +
+  labs(title = "Pokemon Height Distribution Across Generations",
+       subtitle = "Comparing Pokemon heights by generation",
+       x = "Generation",
+       y = "Height",
+       tag = "I") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(size = 11, color = "grey50", hjust = 0.5),
+        axis.title = element_text(face = "bold"),
+        plot.tag = element_text(face = "bold"))
 ```
   
   E. Summarize
     
-    *replace this with your answer*
+    *Based on the boxplots, it does not seem that pokemons get taller across generations. The median seems steady across all generations.*
     
   F. Now, use an alternative type of visualization to investigate the same question
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Generation,
+             y = height_m)) +
+  stat_summary(aes(color = Generation), fun.data = "mean_se", geom = "errorbar") +
+  stat_summary(fun = "mean", geom = "line", group = 1, linetype = 
+                 "dotted") +
+  stat_summary(fun = "mean", geom = "point") +
+  labs(title = "Pokemon Height Distribution Across Generations",
+       subtitle = "Comparing Pokemon heights by generation",
+       x = "Generation",
+       y = "Height",
+       tag = "I") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(size = 11, color = "grey50", hjust = 0.5),
+        axis.title = element_text(face = "bold"),
+        plot.tag = element_text(face = "bold"))
 ```
 
   G. Is the pattern/relationship the same as above? If not, in what way is it different?
     
-    *replace this with your answer*
+    *The pattern is different. This plot makes it look like there are trends in which there are periods where the height is increasing across generations and decreasing. It makes the differences between generations seem more drastic than the boxplot.*
     
   H. Overall conclusion and rationale
     
-    *replace this with your answer*
+    *In conclusion, pokemon do not get taller across generations. The heights across generations have very minute differences.*
 
 # Part 3:
 
@@ -377,7 +838,7 @@ Please save the appropriate number to the variables below:
 1. Approximately how long (in minutes) do you think it took you to complete this assignment?
 
 ```{r}
-timeEstimate = 
+timeEstimate = too long D:
 ```
 
 2. How difficult or challenging did you find this assignment?
@@ -387,7 +848,7 @@ Extremely easy -------------------------------------- Extremely challenging
     1                                                           10
     
 ```{r}
-challenge = 
+challenge = 10
 ```
     
     
@@ -397,7 +858,7 @@ Extremely Boring and Dry -------------------------------------- Extremely Engagi
           1                                                                   10
 
 ```{r}
-engagement = 
+engagement = 2
 ```
 
 4. If you have any other feedback about this assignment, please provide it below.
