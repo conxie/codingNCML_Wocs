@@ -730,63 +730,111 @@ If you have no ideas at all, here are a couple to either get you thinking or tha
 
 (Note: You CAN take the average of a logical variable since `TRUE` and `FALSE` correspond to 1 and 0!)
 
-1. *Write your question here.*
+1. *Are taller pokemon harder to catch?*
 
 
   A. What is your prediction?
     
-    *replace this with your answer*
+    *If it is true that taller pokemon are harder to catch, I anticipate that as the height increases, the catch rate should decrease; there should be a negative relationship. On the other hand, if they are easier to catch, I anticipate as the height increases, so will the catch rate.*
 
   B. What are some reasons why this might be true?
     
-    *replace this with your answer*
+    *This might be true because taller pokemon may have better defense or attack scores, which make it more difficult to capture.*
   
   C. What are some reasons this might not be true?
     
-    *replace this with your answer*
+    *This might not be true because taller pokemon may have less speed. It could also just be based on pokemon type, and the height has no correlation to capture rate.*
     
   D. Investigate
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = height_m,
+             y = capture_rate)) +
+  geom_point(alpha = 0.6,
+             color = "pink") +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgreen") +
+  scale_y_continuous(limits = c(0,250),
+                     breaks = seq(from = 0,
+                                  to = 250,
+                                  by = 25),
+                     labels = seq(from = 0,
+                                  to = 250,
+                                  by = 25),
+                     expand = c(0,0)) +
+  coord_cartesian(xlim = c(0,5)) +
+  labs(title = "Do Taller Pokemon Have Lower Capture Rates?",
+       x = "Height (meters)",
+       y = "Capture Rate",
+       tag = "1") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                 face = "bold",
+                                 hjust = 0.5),
+        plot.tag = element_text(face = "bold"))
 ```
   
   E. Summarize
     
-    *replace this with your answer*
+    *In summary, the line of best fit slopes downward. This means as height increases, the capture rate tends to decrease. Thus, taller pokemon seem to be harder to catch.*
     
   F. Conclusion and rationale
     
-    *replace this with your answer*
+    *The downward slope shows taller pokemon generally have lower capture rates, meaning they are harder to catch. This likely reflects that larger pokemon are more challenging, though height is just one factor that affects capture difficulty. We see the negative is slope is somewhat shallow, so height does not fully predict capture rate.*
 
 
-2. *Write your question here.*
+2. *Does a pokemon's speed affect its capture rate?*
 
   A. What is your prediction?
     
-    *replace this with your answer*
+    *If faster pokemon are harder to catch, we would see that as speed increases, capture rate decreases, which is a negative correlation. If not, it would be the opposite.*
 
   B. What are some reasons why this might be true?
     
-    *replace this with your answer*
+    *This might be true becuase intuitively, you would think if the pokemon is faster, it would be harder to catch.*
   
   C. What are some reasons this might not be true?
     
-    *replace this with your answer*
+    *This might not be true because capture rates can depend more on other factors than just speed.*
     
   D. Investigate
   
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Speed,
+             y = capture_rate)) +
+  geom_point(alpha = 0.6,
+             color = "skyblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  scale_y_continuous(limits = c(0, 250),
+                     breaks = seq(0, 250, 25),
+                     labels = seq(0, 250, 25),
+                     expand = c(0,0)) +
+  facet_grid(cols = vars(Generation)) +
+  coord_cartesian(xlim = c(0, 200)) +
+  labs(title = "Does Pokemon Speed Affect Capture Rate?",
+       subtitle = "All Pokemon across generations",
+       x = "Speed",
+       y = "Capture Rate",
+       tag = "2") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16,
+                                 face = "bold",
+                                 hjust = 0.5),
+        plot.subtitle = element_text(size = 12,
+                                     color = "grey50",
+                                     hjust = 0.5),
+        plot.tag = element_text(face = "bold"))
+  
 ```
   
   E. Summarize
     
-    *replace this with your answer*
+    *In summary, there is a downward slope which means that as speed increases, the capture rate decreases. This shows that faster pokemon are harder to catch, and we see this across generations as well.*
     
   F. Conclusion and rationale
     
-    *replace this with your answer*
+    *The plot shows a negative relationship between pokemon speed and capture rate across generations. This means that in general, faster pokemon tend to have lower capture rates, making them harder to catch. This makes sense because they are faster and can evade more easily by fleeing quickly.*
 
 
 
@@ -797,37 +845,107 @@ Recreate the following visualizations:
 https://drive.google.com/uc?export=view&id=1A5KszqsxRXpI2KbJHAEoFvMTXjYFp1ym
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Type2,
+             y = Type1)) +
+  geom_bin_2d(color = "black") +
+  scale_fill_gradient(low = "white", high = "purple4") +
+  theme_minimal() +
+  theme(axis.text = element_text(color = "black",
+                            size = 7),
+        legend.key.size = unit(0.4, "cm"),
+        legend.text = element_text(size = 5),
+        legend.title = element_text(size = 6)) 
 ```
 
 https://drive.google.com/uc?export=view&id=1NmG7S1ujgC7xfZ5PV4CT-Z8qwcEc9vsn
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Speed,
+             y = capture_rate)) +
+  geom_point(color = "red",
+             alpha = 0.2,
+             shape = 19,
+             size = 2) +
+  geom_point(aes(color = Legendary,
+                 shape = Legendary),
+             size = 2,
+             alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("FALSE" = "red", "TRUE" = "forestgreen")) +
+  scale_shape_manual(values = c("FALSE" = 16, "TRUE" = 17)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 275, by = 25), 
+                     labels = seq(from = 0, to = 275, by = 25)) + 
+  scale_x_continuous(breaks = seq(from = 0, to = 150, by = 25),
+                     labels = seq(from = 0, to = 150, by = 25))
 ```
 
 https://drive.google.com/uc?export=view&id=1UvlUJ_fsYUKsKdPv8A2y0txg9_mR7ZTO
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Generation,
+             y = HealthPoints)) +
+  geom_violin(aes(color = Generation)) +
+  scale_color_viridis(discrete = TRUE, 
+                      option = "viridis") +
+  geom_jitter(color = "black",
+              alpha = 0.15,
+              width = 0.1,
+              size = 1) +
+  stat_summary(aes(color = Generation), 
+               fun = "mean", 
+               geom = "point", 
+               shape = 18, 
+               size = 4) + 
+   scale_y_continuous(breaks = seq(from = 0, to = 250, by = 25), 
+                     labels = seq(from = 0, to = 250, by = 25)) + theme_classic() +
+  theme(legend.key.size = unit(0.4, "cm"),
+        legend.text = element_text(size = 7),
+        legend.title = element_text(size = 8))
 ```
 
 https://drive.google.com/uc?export=view&id=1s1hdjhqGdulVDVUDF89LhnoIGtneOeH4
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Generation,
+             y = capture_rate)) +
+  stat_summary(fun = "mean", geom = "bar") +
+  facet_grid(cols = vars(Legendary)) +
+  stat_summary(aes(fill = Generation), geom = "bar") +
+  scale_fill_brewer(palette = "YlGn")
 ```
 
 https://drive.google.com/uc?export=view&id=1g9lLPN0X0go2NLRFAPxURhMM2byYLsm2
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(x = Legendary,
+             y = SpDef)) +
+  stat_summary(aes(fill = Generation),
+               fun = "mean",
+               geom = "bar",
+               position = position_dodge()) +
+  stat_summary(aes(fill = Generation), fun.data = "mean_se",
+               geom = "errorbar", size = 0.2, width = 0.2, position = position_dodge())
 ```
 
 https://drive.google.com/uc?export=view&id=1T91pzhpwndhSyfSeeoI3ts8Zg5kyo1gA
 
 ```{r}
-
+pokemon %>%
+  ggplot(aes(y = Defense,
+             x = height_m)) +
+  geom_point(aes(fill = Generation),
+             alpha = 0.3,
+             shape = 21,
+             color = "black") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_grid(cols = vars(Generation),
+             rows = vars(Legendary))
 ```
 
 
