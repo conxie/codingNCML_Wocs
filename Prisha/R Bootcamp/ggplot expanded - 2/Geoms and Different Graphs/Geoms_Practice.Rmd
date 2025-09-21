@@ -8,7 +8,7 @@ output: html_document
 ```{r}
 library(tidyverse)
 # Modify the file path in the code below to properly load the "diamonds_sample.RData" file
-load("diamonds_sample.RData") 
+load("C:/Users/prish/Downloads/codingNCML_Wocs-Prisha/codingNCML_Wocs-Prisha/Prisha/R Bootcamp/ggplot expanded - 2/Geoms and Different Graphs/diamonds_sample.RData") 
 ```
 
 # Intro
@@ -43,61 +43,99 @@ These are clearly marked in the questions that expect them. When a question has 
 1. Use `geom_bar()` to create a bar graph for `clarity`.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = clarity)) + 
+  geom_bar(color = "purple")
 
 ```
 
 2. Use `geom_bar()` to create a bar graph for `color`. Make the bars themselves be filled with violet and have a blue outline. 
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = color)) + 
+  geom_bar(color = "blue", fill = "violet")
 ```
 
 3. Use `geom_histogram()` to create a histogram for `price`.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(x = price)) + 
+  geom_histogram()
 
 ```
 
 4. Use `geom_histogram()` to create a histogram for `carat`. Make the bars themselves be filled with cyan with a turquoise outline. Add a vertical bar at where you think the average might be.
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(x = carat)) + 
+  geom_histogram(color = "turquoise", fill = "cyan") + geom_vline(aes(xintercept = 0.7), color = "red", size=1)
 ```
 
 5. Use `geom_point()` to create a scatter plot for `carat` and `depth`. Add the line of best fit, and make any aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
 
 Question:
-  *Question here*
+  *What is the relationship between carat and depth?* 
 
 Prediction:
-  *Prediction here*
+  *An increase in carat will be correlated to an increase in depth*
 
 ```{r}
-
+diamonds_sample %>%
+  ggplot(aes(y = carat,
+             x = depth)) + 
+  geom_point(color = "purple",
+             size = 1,
+             alpha = .6) + 
+  geom_smooth(method = "lm", color = "red", se = FALSE)
 ```
 
 Summary:
-  *Summary here*
+  *There is a weak positive correlation between depth and carat of the diamonds since the trendline has a slightly positive slope.*
 
 
 6. Create 2D histogram (regular or hexbin) for `y` and `table`.
 
 ```{r}
+diamonds_sample %>%
+  ggplot(aes(y = y, x = table)) +
+  geom_bin2d()
 
 ```
 Summary:
-  *Summary here*
+  *The greatest width of diamonds is between 5-7.5 since the count has the lightest blue color here. The greatest table values occur between 55 and 60.*
 
 
 7. Take your visualizations from questions 5 and 6 and add information about the individual distributions to the margins (whichever way you prefer).
 
 ```{r}
-
+#Question 5
+diamonds_sample %>%
+  ggplot(aes(y = carat,
+             x = depth)) + 
+  geom_point(color = "purple",
+             size = 1,
+             alpha = .6) + 
+  geom_smooth(method = "lm", color = "red", se = FALSE) + geom_rug(size = 20,
+           color = "blue",
+           alpha = 0.1)
+```
+```{r}
+#Question 6
+(diamonds_sample %>%
+  ggplot(aes(y = y,
+             x = table)) + 
+  geom_bin_2d() + 
+  geom_point(alpha = 0)) %>%
+  ggExtra::ggMarginal(type = "histogram", color = "grey", fill = "blue", size = 10)
+```
 ```
 
 Do you think one of these two is better/more effective than the other? If so, which and why? If not, why not?
 
-*answer here*
+I think that the first one using geom_rug is better since it offers a visualization that is more pleasing to the eye and also demonstrates where there are additional data points compared to the rest of the dataset.
 
 
 8. Use `stat_summary()` to show the mean `depth` for `color`. Represent the mean with a bar (note: *not* a vline), and include standard error *bars*. Make any aesthetic modifications that you think help improve the legibility or effectiveness of the graph.
